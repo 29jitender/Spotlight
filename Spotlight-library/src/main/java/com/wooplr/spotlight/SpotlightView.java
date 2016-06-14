@@ -1,4 +1,4 @@
-package com.wooplr.spotlight.view;
+package com.wooplr.spotlight;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
@@ -31,11 +31,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.wooplr.spotlight.AnimPoint;
-import com.wooplr.spotlight.NormalLineAnimDrawable;
-import com.wooplr.spotlight.R;
 import com.wooplr.spotlight.prefs.PreferencesManager;
 import com.wooplr.spotlight.shape.Circle;
+import com.wooplr.spotlight.shape.NormalLineAnimDrawable;
+import com.wooplr.spotlight.target.AnimPoint;
 import com.wooplr.spotlight.target.Target;
 import com.wooplr.spotlight.target.ViewTarget;
 import com.wooplr.spotlight.utils.SpotlightListener;
@@ -855,6 +854,28 @@ public class SpotlightView extends FrameLayout {
         this.mTypeface = typeface;
     }
 
+    public void setConfiguration(SpotlightConfig configuration) {
+
+        if (configuration != null) {
+            this.maskColor = configuration.getMaskColor();
+            this.introAnimationDuration = configuration.getIntroAnimationDuration();
+            this.isRevealAnimationEnabled = configuration.isRevealAnimationEnabled();
+            this.fadingTextDuration = configuration.getFadingTextDuration();
+            this.padding = configuration.getPadding();
+            this.dismissOnTouch = configuration.isDismissOnTouch();
+            this.isPerformClick = configuration.isPerformClick();
+            this.headingTvSize = configuration.getHeadingTvSize();
+            this.headingTvColor = configuration.getHeadingTvColor();
+            this.headingTvText = configuration.getHeadingTvText();
+            this.subHeadingTvSize = configuration.getSubHeadingTvSize();
+            this.subHeadingTvColor = configuration.getSubHeadingTvColor();
+            this.subHeadingTvText = configuration.getSubHeadingTvText();
+            this.lineAnimationDuration = configuration.getLineAnimationDuration();
+            this.lineStroke = configuration.getLineStroke();
+            this.lineAndArcColor = configuration.getLineAndArcColor();
+        }
+    }
+
     /**
      * Builder Class
      */
@@ -973,6 +994,10 @@ public class SpotlightView extends FrameLayout {
 //            return this;
 //        }
 
+        public Builder setConfiguration(SpotlightConfig configuration) {
+            spotlightView.setConfiguration(configuration);
+            return this;
+        }
 
         public SpotlightView build() {
             Circle circle = new Circle(

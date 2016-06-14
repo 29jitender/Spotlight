@@ -1,4 +1,4 @@
-package com.wooplr.spotlight;
+package com.wooplr.spotlight.shape;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -11,6 +11,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+
+import com.wooplr.spotlight.target.AnimPoint;
 
 import java.util.ArrayList;
 import java.util.List;

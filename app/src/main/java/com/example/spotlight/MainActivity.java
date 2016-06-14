@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.wooplr.spotlight.prefs.PreferencesManager;
 import com.wooplr.spotlight.utils.Utils;
-import com.wooplr.spotlight.view.SpotlightView;
+import com.wooplr.spotlight.SpotlightView;
 
 import java.util.Random;
 
