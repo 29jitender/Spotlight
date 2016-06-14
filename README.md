@@ -138,6 +138,7 @@ config.isDismissOnTouch(true);
 config.setLineAndArcColor(0xFFFFFFFF);
 ...
 .setConfiguration(config) //
+```
 
 #Author
 
