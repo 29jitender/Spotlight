@@ -20,8 +20,7 @@ Spotlight is a android library to onboard user by showcasing specfic features in
                 .setMaskColor(Color.parseColor("#dc000000"))
                 .setTarget(view)
                 .lineAnimDuration(400)
-                .lineColor(Color.parseColor("#eb273f"))
-                .lineStroke(4)
+                .lineAndArcColor(Color.parseColor("#eb273f"))
                 .dismissOnTouch(true)
                 .setUsageId(usageId)
                 .show();
@@ -45,7 +44,7 @@ Spotlight is a android library to onboard user by showcasing specfic features in
 
     ```javascript
     dependencies {
-        compile 'com.github.wooplr:Spotlight:1.1.1'
+        compile 'com.github.wooplr:Spotlight:1.0'
     }
     ```
 
@@ -111,14 +110,11 @@ Text to display in sub-heading
 ### setTypeface(Typeface)
 Custom font for text in spotlight view
 
-### lineColor(int)
+### lineAndArcColor(int)
 Color of the spotlight line
 
 ### lineAnimDuration(long)
 Line animation duration
-
-### lineStroke(int)
-Stroke of line (in Dp)
 
 ### performClick(boolean)
 Perform a click on target view
