@@ -68,7 +68,7 @@ Spotlight is a android library to onboard user by showcasing specfic features in
     <dependency>
         <groupId>com.github.wooplr</groupId>
         <artifactId>Spotlight</artifactId>
-        <version>1.1.1</version>
+        <version>1.0</version>
     </dependency>
     ```
 
