@@ -10,10 +10,10 @@
         android:valueTo="0" />
 
     <!--<objectAnimator-->
-        <!--android:duration="0"-->
-        <!--android:propertyName="strokeAlpha"-->
-        <!--android:valueFrom="1"-->
-        <!--android:valueTo="1" />-->
+    <!--android:duration="0"-->
+    <!--android:propertyName="strokeAlpha"-->
+    <!--android:valueFrom="1"-->
+    <!--android:valueTo="1" />-->
 
     <objectAnimator
         android:duration="300"
@@ -22,9 +22,9 @@
         android:valueTo="1" />
 
     <!--<objectAnimator-->
-        <!--android:duration="300"-->
-        <!--android:propertyName="strokeAlpha"-->
-        <!--android:valueFrom="0.4"-->
-        <!--android:valueTo="1" />-->
+    <!--android:duration="300"-->
+    <!--android:propertyName="strokeAlpha"-->
+    <!--android:valueFrom="0.4"-->
+    <!--android:valueTo="1" />-->
 
 </set>

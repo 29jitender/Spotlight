@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -163,8 +164,10 @@ public class SpotlightView extends FrameLayout {
      * Values for line animation
      */
     private long lineAnimationDuration = 300;
-    private int lineColor = Color.parseColor("#eb273f");
-    private int lineStroke = 8;
+    private int lineStroke;
+
+    private int lineAndArcColor = Color.parseColor("#eb273f");
+
 
     private Typeface mTypeface = null;
 
@@ -193,6 +196,7 @@ public class SpotlightView extends FrameLayout {
         setWillNotDraw(false);
         setVisibility(INVISIBLE);
 
+        lineStroke = Utils.dpToPx(4);
         isReady = false;
         isRevealAnimationEnabled = true;
         dismissOnTouch = false;
@@ -505,15 +509,19 @@ public class SpotlightView extends FrameLayout {
         mImageView.postInvalidate();
         mImageView.setLayoutParams(params);
         addView(mImageView);
-
+        PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(lineAndArcColor,
+                PorterDuff.Mode.SRC_ATOP);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AnimatedVectorDrawable avd = (AnimatedVectorDrawable)
                     ContextCompat.getDrawable(activity, R.drawable.avd_spotlight_arc);
+            avd.setColorFilter(porterDuffColorFilter);
             mImageView.setImageDrawable(avd);
             avd.start();
         } else {
             AnimatedVectorDrawableCompat avdc =
                     AnimatedVectorDrawableCompat.create(activity, R.drawable.avd_spotlight_arc);
+            avdc.setColorFilter(porterDuffColorFilter);
+
             mImageView.setImageDrawable(avdc);
             avdc.start();
         }
@@ -561,7 +569,7 @@ public class SpotlightView extends FrameLayout {
         p.setStrokeJoin(Paint.Join.ROUND);
         p.setStrokeCap(Paint.Cap.ROUND);
         p.setStrokeWidth(lineStroke);
-        p.setColor(lineColor);
+        p.setColor(lineAndArcColor);
 
         NormalLineAnimDrawable animDrawable1 = new NormalLineAnimDrawable(p);
         if (lineAnimationDuration > 0)
@@ -835,13 +843,13 @@ public class SpotlightView extends FrameLayout {
         this.lineAnimationDuration = lineAnimationDuration;
     }
 
-    public void setLineColor(int lineColor) {
-        this.lineColor = lineColor;
+    public void setLineAndArcColor(int lineAndArcColor) {
+        this.lineAndArcColor = lineAndArcColor;
     }
 
-    public void setLineStroke(int lineStroke) {
-        this.lineStroke = lineStroke;
-    }
+//    public void setLineStroke(int lineStroke) {
+//        this.lineStroke = lineStroke;
+//    }
 
     public void setTypeface(Typeface typeface) {
         this.mTypeface = typeface;
@@ -950,8 +958,8 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
-        public Builder lineColor(int color) {
-            spotlightView.setLineColor(color);
+        public Builder lineAndArcColor(int color) {
+            spotlightView.setLineAndArcColor(color);
             return this;
         }
 
@@ -960,10 +968,10 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
-        public Builder lineStroke(int stoke) {
-            spotlightView.setLineStroke(Utils.dpToPx(stoke));
-            return this;
-        }
+//        public Builder lineStroke(int stoke) {
+//            spotlightView.setLineStroke(Utils.dpToPx(stoke));
+//            return this;
+//        }
 
 
         public SpotlightView build() {

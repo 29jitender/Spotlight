@@ -127,8 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .maskColor(Color.parseColor("#dc000000"))
                 .target(view)
                 .lineAnimDuration(400)
-                .lineColor(Color.parseColor("#eb273f"))
-                .lineStroke(4)//In Dp
+                .lineAndArcColor(Color.parseColor("#eb273f"))
                 .dismissOnTouch(true)
                 .usageId(usageId) //UNIQUE ID
                 .show();
