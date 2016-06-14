@@ -129,10 +129,22 @@ Unique id for each spotlight
 ### dismissOnTouch(boolean)
 Dismiss spotlight on touch outside
 
+# Configuration Method
+```java
+//Create global config instance to not write same config to builder
+//again and again.
+SpotlightConfig config = new SpotlightConfig();
+config.isDismissOnTouch(true);
+config.setLineAndArcColor(0xFFFFFFFF);
+...
+.setConfiguration(config) //
 
 #Author
 
 [Jitender Chaudhary](https://github.com/29jitender)
+
+#Credits
+[MaterialIntroView](https://github.com/iammert/MaterialIntroView)
 
 ## License
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
