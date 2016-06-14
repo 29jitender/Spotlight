@@ -131,8 +131,7 @@ Dismiss spotlight on touch outside
 
 # Configuration Method
 ```java
-//Create global config instance to not write same config to builder
-//again and again.
+//Create global config instance to reuse it
 SpotlightConfig config = new SpotlightConfig();
 config.isDismissOnTouch(true);
 config.setLineAndArcColor(0xFFFFFFFF);
