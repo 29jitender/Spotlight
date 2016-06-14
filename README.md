@@ -1,5 +1,5 @@
 # Spotlight
-Spotlight is an android library to onboard user by showcasing specfic features in your app.
+Spotlight is a android library to onboard user by showcasing specific features in the app.
 
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 <img src="https://img.shields.io/badge/license-Apache 2.0-green.svg?style=flat">
