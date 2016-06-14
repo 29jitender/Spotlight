@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_spotlight_arc">
+
+    <target
+        android:name="curve_left_atrium"
+        android:animation="@animator/arc_animator" />
+
+    <target
+        android:name="curve_right_atrium"
+        android:animation="@animator/arc_animator" />
+
+</animated-vector>
