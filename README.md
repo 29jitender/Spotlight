@@ -146,6 +146,8 @@ config.setLineAndArcColor(0xFFFFFFFF);
 
 #Credits
 [MaterialIntroView](https://github.com/iammert/MaterialIntroView)
+[Rahul Khanna](https://github.com/rahulkhanna02)
+[Suraj Barthy](https://www.behance.net/thesbdesign)
 
 ## License
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
