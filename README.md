@@ -149,7 +149,7 @@ config.setLineAndArcColor(0xFFFFFFFF);
 
 [Rahul Khanna](https://www.linkedin.com/in/rahul-khanna-01705827)
 
-[Suraj Barthy](https://www.behance.net/thesbdesign)
+[Suraj Barthy](https://dribbble.com/thesbdesign)
 
 ## License
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
