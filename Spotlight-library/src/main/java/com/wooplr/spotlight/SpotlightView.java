@@ -265,7 +265,6 @@ public class SpotlightView extends FrameLayout {
 
                 return true;
             case MotionEvent.ACTION_UP:
-
                 if (isTouchOnFocus || dismissOnTouch)
                     dismiss();
 
@@ -588,6 +587,22 @@ public class SpotlightView extends FrameLayout {
             @Override
             public void onAnimationEnd(Animator animator) {
                 AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+                fadeIn.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        dismissOnTouch = true;
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
                 fadeIn.setDuration(fadingTextDuration);
                 fadeIn.setFillAfter(true);
                 headingTv.startAnimation(fadeIn);
@@ -986,6 +1001,12 @@ public class SpotlightView extends FrameLayout {
 
         public Builder lineAnimDuration(long duration) {
             spotlightView.setLineAnimationDuration(duration);
+            return this;
+        }
+
+        public Builder enableDismissAfterShown(boolean enable) {
+            if (enable)
+                spotlightView.setDismissOnTouch(false);
             return this;
         }
 

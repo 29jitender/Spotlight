@@ -12,9 +12,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wooplr.spotlight.SpotlightView;
 import com.wooplr.spotlight.prefs.PreferencesManager;
 import com.wooplr.spotlight.utils.Utils;
-import com.wooplr.spotlight.SpotlightView;
 
 import java.util.Random;
 
@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .lineAnimDuration(400)
                 .lineAndArcColor(Color.parseColor("#eb273f"))
                 .dismissOnTouch(true)
+                .enableDismissAfterShown(true)
                 .usageId(usageId) //UNIQUE ID
                 .show();
     }
