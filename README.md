@@ -1,9 +1,10 @@
 # Spotlight
-Spotlight is a android library to onboard user by showcasing specfic features in the app.
+Spotlight is a android library to onboard user by showcasing specific features in the app.
 
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 <img src="https://img.shields.io/badge/license-Apache 2.0-green.svg?style=flat">
 [![API](https://img.shields.io/badge/API-11%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=11)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Spotlight-green.svg?style=flat)](http://android-arsenal.com/details/1/3730)
 
 #Screen
 <img src="https://raw.githubusercontent.com/wooplr/Spotlight/master/art/intro.gif?token=AA5ZAHdvAspW6Zj8YyyKamkV7jWXFtMHks5XaQovwA%3D%3D"/>
@@ -131,8 +132,7 @@ Dismiss spotlight on touch outside
 
 # Configuration Method
 ```java
-//Create global config instance to not write same config to builder
-//again and again.
+//Create global config instance to reuse it
 SpotlightConfig config = new SpotlightConfig();
 config.isDismissOnTouch(true);
 config.setLineAndArcColor(0xFFFFFFFF);
@@ -146,6 +146,10 @@ config.setLineAndArcColor(0xFFFFFFFF);
 
 #Credits
 [MaterialIntroView](https://github.com/iammert/MaterialIntroView)
+
+[Rahul Khanna](https://www.linkedin.com/in/rahul-khanna-01705827)
+
+[Suraj Barthy](https://dribbble.com/thesbdesign)
 
 ## License
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
