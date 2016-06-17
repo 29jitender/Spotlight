@@ -335,8 +335,6 @@ public class SpotlightView extends FrameLayout {
             startFadeout();
         }
 
-        if (listener != null)
-            listener.onUserClicked(usageId);
     }
 
 
@@ -752,6 +750,9 @@ public class SpotlightView extends FrameLayout {
      * Remove the spotlight view
      */
     private void removeSpotlightView() {
+        if (listener != null)
+            listener.onUserClicked(usageId);
+        
         if (getParent() != null)
             ((ViewGroup) getParent()).removeView(this);
     }
