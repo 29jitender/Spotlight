@@ -27,6 +27,7 @@ Spotlight is a android library to onboard user by showcasing specific features i
                 .lineAnimDuration(400)
                 .lineAndArcColor(Color.parseColor("#eb273f"))
                 .dismissOnTouch(true)
+                .enableDismissAfterShown(true)
                 .setUsageId(usageId)
                 .show();
 ```
@@ -49,7 +50,7 @@ Spotlight is a android library to onboard user by showcasing specific features i
 
     ```javascript
     dependencies {
-        compile 'com.github.wooplr:Spotlight:1.0'
+        compile 'com.github.wooplr:Spotlight:1.1'
     }
     ```
 
@@ -73,7 +74,7 @@ Spotlight is a android library to onboard user by showcasing specific features i
     <dependency>
         <groupId>com.github.wooplr</groupId>
         <artifactId>Spotlight</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
     </dependency>
     ```
 
@@ -129,6 +130,9 @@ Unique id for each spotlight
 
 ### dismissOnTouch(boolean)
 Dismiss spotlight on touch outside
+
+### enableDismissAfterShown(boolean)
+Dismiss spotlight on touch outside after spotlight is completely visible
 
 # Configuration Method
 ```java
