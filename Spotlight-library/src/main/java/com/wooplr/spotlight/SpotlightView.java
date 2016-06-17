@@ -476,29 +476,29 @@ public class SpotlightView extends FrameLayout {
     private void addArcAnimation(final Activity activity) {
         AppCompatImageView mImageView = new AppCompatImageView(activity);
         mImageView.setImageResource(R.drawable.ic_spotlight_arc);
-        LayoutParams params = new LayoutParams(targetView.getViewWidth() + 2 * (padding + extraPaddingForArc),
-                targetView.getViewHeight() + 2 * (padding + extraPaddingForArc));
+        LayoutParams params = new LayoutParams(2 * (circleShape.getRadius() + extraPaddingForArc),
+                2 * (circleShape.getRadius() + extraPaddingForArc));
 
 
         if (targetView.getPoint().y > getHeight() / 2) {//bottom
             if (targetView.getPoint().x > getWidth() / 2) {//Right
-                params.rightMargin = getWidth() - targetView.getViewRight() - padding - extraPaddingForArc;
-                params.bottomMargin = getHeight() - targetView.getViewBottom() - padding - extraPaddingForArc;
+                params.rightMargin = getWidth() - targetView.getPoint().x - circleShape.getRadius() - extraPaddingForArc;
+                params.bottomMargin = getHeight() - targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc;
                 params.gravity = Gravity.RIGHT | Gravity.BOTTOM;
             } else {
-                params.leftMargin = targetView.getViewLeft() - padding - extraPaddingForArc;
-                params.bottomMargin = getHeight() - targetView.getViewBottom() - padding - extraPaddingForArc;
+                params.leftMargin = targetView.getPoint().x - circleShape.getRadius() - extraPaddingForArc;
+                params.bottomMargin = getHeight() - targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc;
                 params.gravity = Gravity.LEFT | Gravity.BOTTOM;
             }
         } else {//up
             mImageView.setRotation(180); //Reverse the view
             if (targetView.getPoint().x > getWidth() / 2) {//Right
-                params.rightMargin = getWidth() - targetView.getViewRight() - padding - extraPaddingForArc;
-                params.bottomMargin = getHeight() - targetView.getViewBottom() - padding - extraPaddingForArc;
+                params.rightMargin = getWidth() - targetView.getPoint().x - circleShape.getRadius() - extraPaddingForArc;
+                params.bottomMargin = getHeight() - targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc;
                 params.gravity = Gravity.RIGHT | Gravity.BOTTOM;
             } else {
-                params.leftMargin = targetView.getViewLeft() - padding - extraPaddingForArc;
-                params.bottomMargin = getHeight() - targetView.getViewBottom() - padding - extraPaddingForArc;
+                params.leftMargin = targetView.getPoint().x - circleShape.getRadius() - extraPaddingForArc;
+                params.bottomMargin = getHeight() - targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc;
                 params.gravity = Gravity.LEFT | Gravity.BOTTOM;
             }
 
@@ -518,7 +518,6 @@ public class SpotlightView extends FrameLayout {
             AnimatedVectorDrawableCompat avdc =
                     AnimatedVectorDrawableCompat.create(activity, R.drawable.avd_spotlight_arc);
             avdc.setColorFilter(porterDuffColorFilter);
-
             mImageView.setImageDrawable(avdc);
             avdc.start();
         }
@@ -636,7 +635,7 @@ public class SpotlightView extends FrameLayout {
         if (targetView.getPoint().y > screenHeight / 2) {//Down TODO: add a logic for by 2
             if (targetView.getPoint().x > screenWidth / 2) {//Right
                 animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2),
-                        targetView.getViewTop() - padding - extraPaddingForArc, (targetView.getViewRight() - targetView.getViewWidth() / 2),
+                        targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc, (targetView.getViewRight() - targetView.getViewWidth() / 2),
                         targetView.getViewTop() / 2
                 ));
                 animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2),
@@ -660,7 +659,7 @@ public class SpotlightView extends FrameLayout {
                 subHeadingTv.setGravity(Gravity.LEFT);
 
             } else {//left
-                animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2), targetView.getViewTop() - padding - extraPaddingForArc,
+                animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2), targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc,
                         (targetView.getViewRight() - targetView.getViewWidth() / 2),
                         targetView.getViewTop() / 2
                 ));
@@ -688,7 +687,7 @@ public class SpotlightView extends FrameLayout {
         } else {//top
             if (targetView.getPoint().x > screenWidth / 2) {//Right
                 animPoints.add(new AnimPoint(targetView.getViewRight() - targetView.getViewWidth() / 2,
-                        targetView.getViewBottom() + padding + extraPaddingForArc,
+                        targetView.getPoint().y + circleShape.getRadius() + extraPaddingForArc,
                         targetView.getViewRight() - targetView.getViewWidth() / 2,
                         (screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom()));
 
@@ -714,7 +713,7 @@ public class SpotlightView extends FrameLayout {
 
             } else {//left
                 animPoints.add(new AnimPoint(targetView.getViewRight() - targetView.getViewWidth() / 2,
-                        targetView.getViewBottom() + padding + extraPaddingForArc,
+                        targetView.getPoint().y + circleShape.getRadius() + extraPaddingForArc,
                         targetView.getViewRight() - targetView.getViewWidth() / 2,
                         (screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom()));
 
@@ -752,7 +751,7 @@ public class SpotlightView extends FrameLayout {
     private void removeSpotlightView() {
         if (listener != null)
             listener.onUserClicked(usageId);
-        
+
         if (getParent() != null)
             ((ViewGroup) getParent()).removeView(this);
     }
