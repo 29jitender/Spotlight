@@ -148,6 +148,14 @@ config.setLineAndArcColor(0xFFFFFFFF);
 
 [Jitender Chaudhary](https://github.com/29jitender)
 
+#Proguard rules
+
+```java
+-keep class com.wooplr.spotlight.** { *; }
+-keep interface com.wooplr.spotlight.**
+-keep enum com.wooplr.spotlight.**
+```
+
 #Credits
 [MaterialIntroView](https://github.com/iammert/MaterialIntroView)
 
