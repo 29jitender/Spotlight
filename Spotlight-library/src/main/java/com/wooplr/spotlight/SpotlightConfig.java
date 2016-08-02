@@ -16,6 +16,7 @@ public class SpotlightConfig {
     private long fadingTextDuration;
     private int padding;
     private boolean dismissOnTouch;
+    private boolean dismissOnBackpress;
     private boolean isPerformClick;
     private int headingTvSize;
     private int headingTvColor;
@@ -35,6 +36,7 @@ public class SpotlightConfig {
         this.fadingTextDuration = 400;
         this.padding = 20;
         this.dismissOnTouch = true;
+        this.dismissOnBackpress=true;
         this.isPerformClick = true;
         this.headingTvSize = 24;
         this.headingTvColor = Color.parseColor("#eb273f");
@@ -181,5 +183,13 @@ public class SpotlightConfig {
 
     public void setmTypeface(Typeface mTypeface) {
         this.mTypeface = mTypeface;
+    }
+
+    public boolean isDismissOnBackpress() {
+        return dismissOnBackpress;
+    }
+
+    public void setDismissOnBackpress(boolean dismissOnBackpress) {
+        this.dismissOnBackpress = dismissOnBackpress;
     }
 }

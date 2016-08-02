@@ -129,7 +129,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .lineAnimDuration(400)
                 .lineAndArcColor(Color.parseColor("#eb273f"))
                 .dismissOnTouch(true)
-                .enableDismissAfterShown(true)
+                .dismissOnBackPress(true)
+                //.enableDismissAfterShown(true)
                 .usageId(usageId) //UNIQUE ID
                 .show();
     }
