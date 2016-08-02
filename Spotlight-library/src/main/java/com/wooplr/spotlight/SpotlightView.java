@@ -599,6 +599,7 @@ public class SpotlightView extends FrameLayout {
                     public void onAnimationEnd(Animation animation) {
                         dismissOnTouch = true;
                         dismissOnBackPress = true;
+                        enableDismissOnBackPress();
                     }
 
                     @Override
@@ -626,6 +627,12 @@ public class SpotlightView extends FrameLayout {
             }
         });
 
+    }
+
+    private void enableDismissOnBackPress() {
+        setFocusableInTouchMode(true);
+        setFocusable(true);
+        requestFocus();
     }
 
     private List<AnimPoint> checkLinePoint() {
@@ -1041,9 +1048,7 @@ public class SpotlightView extends FrameLayout {
                     spotlightView.padding);
             spotlightView.setCircleShape(circle);
             if (spotlightView.dismissOnBackPress) {
-                spotlightView.setFocusableInTouchMode(true);
-                spotlightView.setFocusable(true);
-                spotlightView.requestFocus();
+                spotlightView.enableDismissOnBackPress();
             }
             return spotlightView;
         }
