@@ -20,7 +20,9 @@ import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -116,6 +118,7 @@ public class SpotlightView extends FrameLayout {
      * Dismiss layout on touch
      */
     private boolean dismissOnTouch;
+    private boolean dismissOnBackPress;
 
     private PreferencesManager preferencesManager;
     private String usageId;
@@ -170,6 +173,7 @@ public class SpotlightView extends FrameLayout {
 
     private Typeface mTypeface = null;
 
+
     public SpotlightView(Context context) {
         super(context);
         init(context);
@@ -200,11 +204,9 @@ public class SpotlightView extends FrameLayout {
         isRevealAnimationEnabled = true;
         dismissOnTouch = false;
         isPerformClick = false;
-
+        dismissOnBackPress = false;
         handler = new Handler();
-
         preferencesManager = new PreferencesManager(context);
-
         eraser = new Paint();
         eraser.setColor(0xFFFFFFFF);
         eraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
@@ -596,6 +598,7 @@ public class SpotlightView extends FrameLayout {
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         dismissOnTouch = true;
+                        dismissOnBackPress = true;
                     }
 
                     @Override
@@ -796,6 +799,9 @@ public class SpotlightView extends FrameLayout {
         this.dismissOnTouch = dismissOnTouch;
     }
 
+    public void setDismissOnBackPress(boolean dismissOnBackPress) {
+        this.dismissOnBackPress = dismissOnBackPress;
+    }
 
     public void setPerformClick(boolean performClick) {
         isPerformClick = performClick;
@@ -808,6 +814,7 @@ public class SpotlightView extends FrameLayout {
     public void setIntroAnimationDuration(long introAnimationDuration) {
         this.introAnimationDuration = introAnimationDuration;
     }
+
 
     public void setRevealAnimationEnabled(boolean revealAnimationEnabled) {
         isRevealAnimationEnabled = revealAnimationEnabled;
@@ -878,6 +885,7 @@ public class SpotlightView extends FrameLayout {
             this.fadingTextDuration = configuration.getFadingTextDuration();
             this.padding = configuration.getPadding();
             this.dismissOnTouch = configuration.isDismissOnTouch();
+            this.dismissOnBackPress = configuration.isDismissOnBackpress();
             this.isPerformClick = configuration.isPerformClick();
             this.headingTvSize = configuration.getHeadingTvSize();
             this.headingTvColor = configuration.getHeadingTvColor();
@@ -935,6 +943,11 @@ public class SpotlightView extends FrameLayout {
 
         public Builder dismissOnTouch(boolean dismissOnTouch) {
             spotlightView.setDismissOnTouch(dismissOnTouch);
+            return this;
+        }
+
+        public Builder dismissOnBackPress(boolean dismissOnBackPress) {
+            spotlightView.setDismissOnBackPress(dismissOnBackPress);
             return this;
         }
 
@@ -1005,8 +1018,10 @@ public class SpotlightView extends FrameLayout {
         }
 
         public Builder enableDismissAfterShown(boolean enable) {
-            if (enable)
+            if (enable) {
                 spotlightView.setDismissOnTouch(false);
+                spotlightView.setDismissOnBackPress(false);
+            }
             return this;
         }
 
@@ -1025,6 +1040,11 @@ public class SpotlightView extends FrameLayout {
                     spotlightView.targetView,
                     spotlightView.padding);
             spotlightView.setCircleShape(circle);
+            if (spotlightView.dismissOnBackPress) {
+                spotlightView.setFocusableInTouchMode(true);
+                spotlightView.setFocusable(true);
+                spotlightView.requestFocus();
+            }
             return spotlightView;
         }
 
@@ -1035,4 +1055,19 @@ public class SpotlightView extends FrameLayout {
 
     }
 
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (dismissOnBackPress) {
+            if (event.getAction() == KeyEvent.ACTION_UP && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+                dismiss();
+                return true;
+            }
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    public void logger(String s) {
+        Log.d("Spotlight", s);
+    }
 }
