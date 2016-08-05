@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.wooplr.spotlight.SpotlightView;
 import com.wooplr.spotlight.prefs.PreferencesManager;
+import com.wooplr.spotlight.utils.SpotlightSequence;
 import com.wooplr.spotlight.utils.Utils;
 
 import java.util.Random;
@@ -23,12 +24,20 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+
 //    static {
 //        AppCompatDelegate.setCompatVectorFromSourcesEnabled(true);
 //    }
 
     private FloatingActionButton fab;
     private static final String INTRO_CARD = "fab_intro";
+    private static final String INTRO_SWITCH = "switch_intro";
+    private static final String INTRO_RESET = "reset_intro";
+    private static final String INTRO_REPEAT = "repeat_intro";
+    private static final String INTRO_CHANGE_POSITION = "change_position_intro";
+    private static final String INTRO_SEQUENCE = "sequence_intro";
     private boolean isRevealEnabled = true;
 
     @BindView(R.id.switchAnimation)
@@ -39,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView resetAndPlay;
     @BindView(R.id.changePosAndPlay)
     TextView changePosAndPlay;
+    @BindView(R.id.startSequence)
+    TextView startSequence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         reset.setOnClickListener(this);
         resetAndPlay.setOnClickListener(this);
         changePosAndPlay.setOnClickListener(this);
+        startSequence.setOnClickListener(this);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -107,6 +119,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
                 params.setMargins(Utils.dpToPx(16), Utils.dpToPx(16), right, bottom);
                 fab.setLayoutParams(params);
+                break;
+            case R.id.startSequence:
+                mPreferencesManager.resetAll();
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        SpotlightSequence.getInstance(MainActivity.this,null)
+                                .addSpotlight(switchAnimation, "Switch Animation", "Click to swtich the animation", INTRO_SWITCH)
+                                .addSpotlight(reset, "Reset ", "Click here to reset preferences", INTRO_RESET)
+                                .addSpotlight(resetAndPlay, "Play Again", "Click here to play again", INTRO_REPEAT)
+                                .addSpotlight(changePosAndPlay, "Change Position", "Click here to change position and replay", INTRO_CHANGE_POSITION)
+                                .addSpotlight(startSequence, "Start sequence", "Well.. you just clicked here", INTRO_SEQUENCE)
+                                .addSpotlight(fab,"Love", "Like the picture?\n" + "Let others know.", INTRO_CARD)
+                                .startSequence();
+                    }
+                },400);
                 break;
         }
     }
