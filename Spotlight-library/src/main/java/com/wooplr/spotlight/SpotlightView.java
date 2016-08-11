@@ -598,8 +598,6 @@ public class SpotlightView extends FrameLayout {
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         dismissOnTouch = true;
-                        dismissOnBackPress = true;
-                        enableDismissOnBackPress();
                     }
 
                     @Override
@@ -1027,7 +1025,6 @@ public class SpotlightView extends FrameLayout {
         public Builder enableDismissAfterShown(boolean enable) {
             if (enable) {
                 spotlightView.setDismissOnTouch(false);
-                spotlightView.setDismissOnBackPress(false);
             }
             return this;
         }
