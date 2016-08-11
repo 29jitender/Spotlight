@@ -50,7 +50,7 @@ Spotlight is an Android library used to onboard users by showcasing specific fea
 
     ```javascript
     dependencies {
-        compile 'com.github.wooplr:Spotlight:1.2.1'
+        compile 'com.github.wooplr:Spotlight:1.2.2'
     }
     ```
 
@@ -74,7 +74,7 @@ Spotlight is an Android library used to onboard users by showcasing specific fea
     <dependency>
         <groupId>com.github.wooplr</groupId>
         <artifactId>Spotlight</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.2</version>
     </dependency>
     ```
 
