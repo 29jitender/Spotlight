@@ -13,7 +13,7 @@ Spotlight is an Android library used to onboard users by showcasing specific fea
 ```java
  new SpotlightView.Builder(this)
                 .setRevealAnimationDuration(400)
-                .enableRevalAnimation(isRevealEnabled)
+                .enableRevealAnimation(isRevealEnabled)
                 .performClick(true)
                 .fadinTextDuration(400)
                 .headingTvColor(Color.parseColor("#eb273f"))
@@ -89,8 +89,8 @@ View to showcase
 ### introAnimationDuration(long)
 Intro animation duration (For Reveal and Fadein)
 
-### enableRevalAnimation(boolean)
-Enable reval animation (Only for Lollipop and above)
+### enableRevealAnimation(boolean)
+Enable reveal animation (Only for Lollipop and above)
 
 ### fadeinTextDuration(long)
 Fade in animation duration for spotlight text (Heading and Sub-heading)

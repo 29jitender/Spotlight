@@ -329,7 +329,7 @@ public class SpotlightView extends FrameLayout {
         preferencesManager.setDisplayed(usageId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (isRevealAnimationEnabled)
-                exitRevalAnimation();
+                exitRevealAnimation();
             else
                 startFadeout();
         } else {
@@ -383,7 +383,7 @@ public class SpotlightView extends FrameLayout {
      * Reverse reveal animation
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void exitRevalAnimation() {
+    private void exitRevealAnimation() {
         float finalRadius = (float) Math.hypot(getWidth(), getHeight());
         Animator anim = ViewAnimationUtils.createCircularReveal(this, targetView.getPoint().x, targetView.getPoint().y, finalRadius, 0);
         anim.setInterpolator(AnimationUtils.loadInterpolator(getContext(),
@@ -929,7 +929,7 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
-        public Builder enableRevalAnimation(boolean isFadeAnimationEnabled) {
+        public Builder enableRevealAnimation(boolean isFadeAnimationEnabled) {
             spotlightView.setRevealAnimationEnabled(isFadeAnimationEnabled);
             return this;
         }

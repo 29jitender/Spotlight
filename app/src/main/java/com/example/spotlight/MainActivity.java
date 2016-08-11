@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void showIntro(View view, String usageId) {
         new SpotlightView.Builder(this)
                 .introAnimationDuration(400)
-                .enableRevalAnimation(isRevealEnabled)
+                .enableRevealAnimation(isRevealEnabled)
                 .performClick(true)
                 .fadeinTextDuration(400)
                 //.setTypeface(FontUtil.get(this, "RemachineScript_Personal_Use"))
