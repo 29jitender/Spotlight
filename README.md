@@ -11,64 +11,65 @@ Spotlight is an Android library used to onboard users by showcasing specific fea
 
 #Usage
 ```java
- new SpotlightView.Builder(this)
-                .setRevealAnimationDuration(400)
-                .enableRevealAnimation(isRevealEnabled)
-                .performClick(true)
-                .fadinTextDuration(400)
-                .headingTvColor(Color.parseColor("#eb273f"))
-                .headingTvSize(32)
-                .headingTvText("Love")
-                .subHeadingTvColor(Color.parseColor("#ffffff"))
-                .subHeadingTvSize(16)
-                .subHeadingTvText("Like the picture?\nLet others know.")
-                .setMaskColor(Color.parseColor("#dc000000"))
-                .setTarget(view)
-                .lineAnimDuration(400)
-                .lineAndArcColor(Color.parseColor("#eb273f"))
-                .dismissOnTouch(true)
-                .enableDismissAfterShown(true)
-                .setUsageId(usageId)
-                .show();
+new SpotlightView.Builder(this)
+        .setRevealAnimationDuration(400)
+        .enableRevealAnimation(isRevealEnabled)
+        .performClick(true)
+        .fadingTextDuration(400)
+        .headingTvColor(Color.parseColor("#eb273f"))
+        .headingTvSize(32)
+        .headingTvText("Love")
+        .subHeadingTvColor(Color.parseColor("#ffffff"))
+        .subHeadingTvSize(16)
+        .subHeadingTvText("Like the picture?\nLet others know.")
+        .setMaskColor(Color.parseColor("#dc000000"))
+        .setTarget(view)
+        .lineAnimDuration(400)
+        .lineAndArcColor(Color.parseColor("#eb273f"))
+        .dismissOnTouch(true)
+        .enableDismissAfterShown(true)
+        .setUsageId(usageId)
+        .show();
 ```
 
 ## Download
 ### Gradle
 
-1. Add it in your root `build.gradle` at the end of repositories:
+1. Define the jitpack remote Maven repository inside the repositories block of your root `build.gradle` file
 
     ```javascript
     allprojects {
-    	repositories {
-    		...
-    		maven { url "https://jitpack.io" }
-    	}
+        repositories {
+            ...
+            maven { url "https://jitpack.io" }
+        }
     }
     ```
 
-2. Add the dependency
+2. Add the Spotlight dependency
 
     ```javascript
     dependencies {
+        ...
         compile 'com.github.wooplr:Spotlight:1.2.2'
     }
     ```
 
 ### Maven
 
-1. Add it in your `pom.xml` at the end of repositories:
+1. Define the jitpack remote Maven repository in your `pom.xml` at the end of repositories
 
     ```xml
     <repositories>
         ...
-    	<repository>
-    	    <id>jitpack.io</id>
-    	    <url>https://jitpack.io</url>
-    	</repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
     ```
 
-2. Add the dependency
+2. Add the Spotlight dependency
 
     ```xml
     <dependency>
@@ -141,7 +142,7 @@ SpotlightConfig config = new SpotlightConfig();
 config.isDismissOnTouch(true);
 config.setLineAndArcColor(0xFFFFFFFF);
 ...
-.setConfiguration(config) //
+.setConfiguration(config)
 ```
 
 #Author
