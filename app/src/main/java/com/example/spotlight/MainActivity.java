@@ -20,25 +20,18 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-//    static {
-//        AppCompatDelegate.setCompatVectorFromSourcesEnabled(true);
-//    }
-
-    private FloatingActionButton fab;
+public class MainActivity extends AppCompatActivity {
     private static final String INTRO_CARD = "fab_intro";
     private boolean isRevealEnabled = true;
 
     @BindView(R.id.switchAnimation)
-    TextView switchAnimation;
-    @BindView(R.id.reset)
-    TextView reset;
-    @BindView(R.id.resetAndPlay)
-    TextView resetAndPlay;
-    @BindView(R.id.changePosAndPlay)
-    TextView changePosAndPlay;
+    TextView switchAnimationView;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fabView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,72 +39,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Fab Clicked!", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        switchAnimation.setOnClickListener(this);
-        reset.setOnClickListener(this);
-        resetAndPlay.setOnClickListener(this);
-        changePosAndPlay.setOnClickListener(this);
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                showIntro(fab, INTRO_CARD);
+                showIntro(fabView, INTRO_CARD);
             }
         }, 2400);
     }
 
-    @Override
+    @OnClick({R.id.switchAnimation, R.id.reset, R.id.resetAndPlay, R.id.changePosAndPlay})
     public void onClick(View view) {
-        PreferencesManager mPreferencesManager = new PreferencesManager(MainActivity.this);
+        PreferencesManager preferencesManager = new PreferencesManager(MainActivity.this);
         DisplayMetrics displaymetrics = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int screenWidth = displaymetrics.widthPixels;
         int screenHeight = displaymetrics.heightPixels;
 
         switch (view.getId()) {
-
             case R.id.switchAnimation:
                 if (isRevealEnabled) {
-                    switchAnimation.setText("Switch to Reveal");
+                    switchAnimationView.setText("Switch to reveal animation");
                     isRevealEnabled = false;
                 } else {
-                    switchAnimation.setText("Switch to Fadein");
+                    switchAnimationView.setText("Switch to fade animation");
                     isRevealEnabled = true;
                 }
-                mPreferencesManager.resetAll();
+                preferencesManager.resetAll();
                 break;
 
             case R.id.reset:
-                mPreferencesManager.resetAll();
+                preferencesManager.resetAll();
                 break;
+
             case R.id.resetAndPlay:
-                mPreferencesManager.resetAll();
+                preferencesManager.resetAll();
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        showIntro(fab, INTRO_CARD);
+                        showIntro(fabView, INTRO_CARD);
                     }
                 }, 400);
                 break;
+
             case R.id.changePosAndPlay:
-                mPreferencesManager.resetAll();
+                preferencesManager.resetAll();
                 Random r = new Random();
                 int right = r.nextInt((screenWidth - Utils.dpToPx(16)) - 16) + 16;
                 int bottom = r.nextInt((screenHeight - Utils.dpToPx(16)) - 16) + 16;
-                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) fabView.getLayoutParams();
                 params.setMargins(Utils.dpToPx(16), Utils.dpToPx(16), right, bottom);
-                fab.setLayoutParams(params);
+                fabView.setLayoutParams(params);
                 break;
         }
     }
 
-    private void showIntro(View view, String usageId) {
+    @OnClick(R.id.fab)
+    void onFabClick() {
+        Toast.makeText(MainActivity.this, "Fab Clicked!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showIntro(View targetView, String usageId) {
         new SpotlightView.Builder(this)
                 .introAnimationDuration(400)
                 .enableRevalAnimation(isRevealEnabled)
@@ -125,13 +112,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .subHeadingTvSize(16)
                 .subHeadingTvText("Like the picture?\nLet others know.")
                 .maskColor(Color.parseColor("#dc000000"))
-                .target(view)
+                .target(targetView)
                 .lineAnimDuration(400)
                 .lineAndArcColor(Color.parseColor("#eb273f"))
                 .dismissOnTouch(true)
                 .dismissOnBackPress(true)
                 .enableDismissAfterShown(true)
-                .usageId(usageId) //UNIQUE ID
+                .usageId(usageId) // should be a unique ID
                 .show();
     }
 }

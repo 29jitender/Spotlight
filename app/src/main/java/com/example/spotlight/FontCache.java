@@ -11,21 +11,21 @@ import java.util.Map;
  * <p/>
  * Also see https://code.google.com/p/android/issues/detail?id=9904
  */
-public class FontUtil {
+public class FontCache {
+    private static final Map<String, Typeface> typefaceCache = new HashMap<>();
+    
+    private FontCache() {
 
-    private FontUtil() {
     }
 
-    private static final Map<String, Typeface> sTypefaceCache = new HashMap<String, Typeface>();
-
     public static Typeface get(Context context, String font) {
-        synchronized (sTypefaceCache) {
-            if (!sTypefaceCache.containsKey(font)) {
+        synchronized (typefaceCache) {
+            if (!typefaceCache.containsKey(font)) {
                 Typeface tf = Typeface.createFromAsset(
                         context.getApplicationContext().getAssets(), font + ".ttf");
-                sTypefaceCache.put(font, tf);
+                typefaceCache.put(font, tf);
             }
-            return sTypefaceCache.get(font);
+            return typefaceCache.get(font);
         }
     }
 }
