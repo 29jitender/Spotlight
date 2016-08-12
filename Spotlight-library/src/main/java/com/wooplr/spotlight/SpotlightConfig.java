@@ -17,7 +17,9 @@ public class SpotlightConfig {
     private int padding;
     private boolean dismissOnTouch;
     private boolean dismissOnBackpress;
-    private boolean isPerformClick;
+    private boolean enableDismissDuringEntryAnimation;
+    private boolean performClick;
+    private boolean enableTargetViewTouch;
     private int headingTvSize;
     private int headingTvColor;
     private CharSequence headingTvText;
@@ -37,7 +39,9 @@ public class SpotlightConfig {
         this.padding = 20;
         this.dismissOnTouch = true;
         this.dismissOnBackpress=true;
-        this.isPerformClick = true;
+        this.performClick = true;
+        this.enableTargetViewTouch = false;
+        this.enableDismissDuringEntryAnimation = false;
         this.headingTvSize = 24;
         this.headingTvColor = Color.parseColor("#eb273f");
         this.headingTvText = "Hello";
@@ -97,12 +101,20 @@ public class SpotlightConfig {
         this.dismissOnTouch = dismissOnTouch;
     }
 
-    public boolean isPerformClick() {
-        return isPerformClick;
+    public boolean performClick() {
+        return performClick;
     }
 
     public void setPerformClick(boolean performClick) {
-        isPerformClick = performClick;
+        this.performClick = performClick;
+    }
+
+    public boolean enableTargetViewTouch() {
+        return enableTargetViewTouch;
+    }
+
+    public void setEnableTargetViewTouch(boolean allowTargetViewTouch) {
+        this.enableTargetViewTouch = allowTargetViewTouch;
     }
 
     public int getHeadingTvSize() {
@@ -191,5 +203,13 @@ public class SpotlightConfig {
 
     public void setDismissOnBackpress(boolean dismissOnBackpress) {
         this.dismissOnBackpress = dismissOnBackpress;
+    }
+
+    public boolean enableDismissDuringEntryAnimation() {
+        return enableDismissDuringEntryAnimation;
+    }
+
+    public void setEnableDismissDuringEntryAnimation(boolean enableDismissDuringEntryAnimation) {
+        this.enableDismissDuringEntryAnimation = enableDismissDuringEntryAnimation;
     }
 }

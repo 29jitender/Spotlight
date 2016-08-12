@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .lineAndArcColor(Color.parseColor("#eb273f"))
                 .dismissOnTouch(true)
                 .dismissOnBackPress(true)
-                .enableDismissAfterShown(true)
+                .enableDismissDuringEntryAnimation(false)
                 .usageId(usageId) //UNIQUE ID
                 .show();
     }
