@@ -6,8 +6,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -105,16 +107,16 @@ public class MainActivity extends AppCompatActivity {
                 .performClick(true)
                 .fadeinTextDuration(400)
                 //.setTypeface(FontUtil.get(this, "RemachineScript_Personal_Use"))
-                .headingTvColor(Color.parseColor("#eb273f"))
+                .headingTvColor(ContextCompat.getColor(this, R.color.spotlight_header_text))
                 .headingTvSize(32)
                 .headingTvText("Love")
-                .subHeadingTvColor(Color.parseColor("#ffffff"))
+                .subHeadingTvColor(ContextCompat.getColor(this, R.color.spotlight_description_text))
                 .subHeadingTvSize(16)
                 .subHeadingTvText("Like the picture?\nLet others know.")
-                .maskColor(Color.parseColor("#dc000000"))
+                .maskColor(ContextCompat.getColor(this, R.color.spotlight_mask))
                 .target(targetView)
                 .lineAnimDuration(400)
-                .lineAndArcColor(Color.parseColor("#eb273f"))
+                .lineAndArcColor(ContextCompat.getColor(this, R.color.spotlight_line))
                 .dismissOnTouch(true)
                 .dismissOnBackPress(true)
                 .enableDismissAfterShown(true)
