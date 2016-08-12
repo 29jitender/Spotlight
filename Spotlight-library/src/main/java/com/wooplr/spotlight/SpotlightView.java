@@ -48,8 +48,8 @@ import java.util.List;
 /**
  * Created by jitender on 10/06/16.
  */
-
 public class SpotlightView extends FrameLayout {
+    private static final String TAG = SpotlightView.class.getSimpleName();
 
     /**
      * OverLay color
@@ -131,7 +131,12 @@ public class SpotlightView extends FrameLayout {
     /**
      * Perform click when user clicks on the targetView
      */
-    private boolean isPerformClick;
+    private boolean performClick;
+
+    /**
+     * Whether the target view is allowed to receive touch events.
+     */
+    private boolean allowTargetViewTouch;
 
     /**
      * Margin from left, right, top and bottom till the line will stop
@@ -203,7 +208,8 @@ public class SpotlightView extends FrameLayout {
         isReady = false;
         isRevealAnimationEnabled = true;
         dismissOnTouch = false;
-        isPerformClick = false;
+        performClick = false;
+        allowTargetViewTouch = false;
         dismissOnBackPress = false;
         handler = new Handler();
         preferencesManager = new PreferencesManager(context);
@@ -241,7 +247,6 @@ public class SpotlightView extends FrameLayout {
         canvas.drawBitmap(bitmap, 0, 0, null);
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float xT = event.getX();
@@ -255,42 +260,43 @@ public class SpotlightView extends FrameLayout {
         double dx = Math.pow(xT - xV, 2);
         double dy = Math.pow(yT - yV, 2);
 
-        boolean isTouchOnFocus = (dx + dy) <= Math.pow(radius, 2);
+        boolean isTouchOnFocusArea = (dx + dy) <= Math.pow(radius, 2);
+        if (isTouchOnFocusArea) {
+            if (allowTargetViewTouch) {
+                targetView.getView().onTouchEvent(event);
+            }
+        }
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-
-                if (isTouchOnFocus && isPerformClick) {
+                if (isTouchOnFocusArea && performClick) {
                     targetView.getView().setPressed(true);
                     targetView.getView().invalidate();
                 }
+                break;
 
-                return true;
             case MotionEvent.ACTION_UP:
-                if (isTouchOnFocus || dismissOnTouch)
+                if (dismissOnTouch) {
                     dismiss();
+                }
 
-                if (isTouchOnFocus && isPerformClick) {
+                if (isTouchOnFocusArea && performClick) {
                     targetView.getView().performClick();
                     targetView.getView().setPressed(true);
                     targetView.getView().invalidate();
                     targetView.getView().setPressed(false);
                     targetView.getView().invalidate();
                 }
-
-                return true;
-            default:
                 break;
         }
 
-        return super.onTouchEvent(event);
+        return true; // consume touch event so the user can't interact with views underneath the overlay
     }
-
 
     /**
      * Show the view based on the configuration
      * Reveal is available only for Lollipop and above in other only fadein will work
-     * To support reveal in older versions use github.com/ozodrukh/CircularReveal
+     * To support reveal in older versions use github.com/ozodrukh/CircularRevealf
      *
      * @param activity
      */
@@ -319,13 +325,17 @@ public class SpotlightView extends FrameLayout {
                                 }
                             }
                 , 100);
-
     }
 
     /**
-     * Dissmiss view with reverse animation
+     * Dismiss view with an exit animation.
      */
-    private void dismiss() {
+    public void dismiss() {
+        if (getWindowToken() == null) {
+            Log.w(TAG, "Cannot dismiss, view is not attached to a window.");
+            return;
+        }
+
         preferencesManager.setDisplayed(usageId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (isRevealAnimationEnabled)
@@ -335,9 +345,7 @@ public class SpotlightView extends FrameLayout {
         } else {
             startFadeout();
         }
-
     }
-
 
     /**
      * Revel animation from target center to screen width and height
@@ -597,7 +605,7 @@ public class SpotlightView extends FrameLayout {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        dismissOnTouch = true;
+
                     }
 
                     @Override
@@ -624,7 +632,6 @@ public class SpotlightView extends FrameLayout {
 
             }
         });
-
     }
 
     private void enableDismissOnBackPress() {
@@ -809,7 +816,17 @@ public class SpotlightView extends FrameLayout {
     }
 
     public void setPerformClick(boolean performClick) {
-        isPerformClick = performClick;
+        this.performClick = performClick;
+    }
+
+    /**
+     * Whether the target view is allowed to receive touch events.
+     *
+     * @param allowTargetViewTouch Set to true to allow the target view to receive touch events, or
+     * false to block all touch events from the target view.
+     */
+    public void setAllowTargetViewTouch(boolean allowTargetViewTouch) {
+        this.allowTargetViewTouch = allowTargetViewTouch;
     }
 
     public void setExtraPaddingForArc(int extraPaddingForArc) {
@@ -891,7 +908,8 @@ public class SpotlightView extends FrameLayout {
             this.padding = configuration.getPadding();
             this.dismissOnTouch = configuration.isDismissOnTouch();
             this.dismissOnBackPress = configuration.isDismissOnBackpress();
-            this.isPerformClick = configuration.isPerformClick();
+            this.performClick = configuration.performClick();
+            this.allowTargetViewTouch = configuration.allowTargetViewTouch();
             this.headingTvSize = configuration.getHeadingTvSize();
             this.headingTvColor = configuration.getHeadingTvColor();
             this.headingTvText = configuration.getHeadingTvText();
@@ -934,7 +952,6 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
-
         public Builder target(View view) {
             spotlightView.setTargetView(new ViewTarget(view));
             return this;
@@ -944,7 +961,6 @@ public class SpotlightView extends FrameLayout {
             spotlightView.setPadding(padding);
             return this;
         }
-
 
         public Builder dismissOnTouch(boolean dismissOnTouch) {
             spotlightView.setDismissOnTouch(dismissOnTouch);
@@ -971,11 +987,15 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
-        public Builder performClick(boolean isPerformClick) {
-            spotlightView.setPerformClick(isPerformClick);
+        public Builder performClick(boolean performClick) {
+            spotlightView.setPerformClick(performClick);
             return this;
         }
 
+        public Builder allowTargetViewTouch(boolean allowTargetViewTouch) {
+            spotlightView.setAllowTargetViewTouch(allowTargetViewTouch);
+            return this;
+        }
 
         public Builder fadeinTextDuration(long fadinTextDuration) {
             spotlightView.setFadingTextDuration(fadinTextDuration);
@@ -1023,9 +1043,9 @@ public class SpotlightView extends FrameLayout {
         }
 
         public Builder enableDismissAfterShown(boolean enable) {
-            if (enable) {
-                spotlightView.setDismissOnTouch(false);
-            }
+//            if (enable) {
+//                spotlightView.setDismissOnTouch(false);
+//            }
             return this;
         }
 
@@ -1054,9 +1074,7 @@ public class SpotlightView extends FrameLayout {
             build().show(activity);
             return spotlightView;
         }
-
     }
-
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -1067,9 +1085,5 @@ public class SpotlightView extends FrameLayout {
             }
         }
         return super.dispatchKeyEvent(event);
-    }
-
-    public void logger(String s) {
-        Log.d("Spotlight", s);
     }
 }

@@ -125,6 +125,9 @@ Line animation duration
 ### performClick(boolean)
 Perform a click on target view
 
+### allowTargetViewTouch(boolean)
+Whether the target view is allowed to receive touch events.
+
 ### usageId(String)
 Unique id for each spotlight
 
