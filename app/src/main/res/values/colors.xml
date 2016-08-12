@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="spotlight_mask">#dc000000</color>
+    <color name="spotlight_line">#eb273f</color>
+    <color name="spotlight_header_text">#eb273f</color>
+    <color name="spotlight_description_text">@android:color/white</color>
 </resources>
