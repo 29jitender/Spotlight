@@ -299,7 +299,7 @@ public class SpotlightView extends FrameLayout {
     /**
      * Show the view based on the configuration
      * Reveal is available only for Lollipop and above in other only fadein will work
-     * To support reveal in older versions use github.com/ozodrukh/CircularRevealf
+     * To support reveal in older versions use github.com/ozodrukh/CircularReveal
      *
      * @param activity
      */
@@ -316,8 +316,12 @@ public class SpotlightView extends FrameLayout {
         handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    if (getWindowToken() == null) {
+                                        Log.w(TAG, "Cannot show, view is not attached to a window.");
+                                        return;
+                                    }
 
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         if (isRevealAnimationEnabled)
                                             startRevealAnimation(activity);
                                         else {
