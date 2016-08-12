@@ -119,6 +119,8 @@ public class SpotlightView extends FrameLayout {
      */
     private boolean dismissOnTouch;
     private boolean dismissOnBackPress;
+    private boolean enableDismissDuringEntryAnimation;
+    private boolean entryAnimationFinished;
 
     private PreferencesManager preferencesManager;
     private String usageId;
@@ -136,7 +138,7 @@ public class SpotlightView extends FrameLayout {
     /**
      * Whether the target view is allowed to receive touch events.
      */
-    private boolean allowTargetViewTouch;
+    private boolean enableTargetViewTouch;
 
     /**
      * Margin from left, right, top and bottom till the line will stop
@@ -209,8 +211,9 @@ public class SpotlightView extends FrameLayout {
         isRevealAnimationEnabled = true;
         dismissOnTouch = false;
         performClick = false;
-        allowTargetViewTouch = false;
+        enableTargetViewTouch = false;
         dismissOnBackPress = false;
+        enableDismissDuringEntryAnimation = false;
         handler = new Handler();
         preferencesManager = new PreferencesManager(context);
         eraser = new Paint();
@@ -262,7 +265,7 @@ public class SpotlightView extends FrameLayout {
 
         boolean isTouchOnFocusArea = (dx + dy) <= Math.pow(radius, 2);
         if (isTouchOnFocusArea) {
-            if (allowTargetViewTouch) {
+            if (enableTargetViewTouch) {
                 targetView.getView().onTouchEvent(event);
             }
         }
@@ -301,6 +304,7 @@ public class SpotlightView extends FrameLayout {
      * @param activity
      */
     private void show(final Activity activity) {
+        entryAnimationFinished = false;
 
         if (preferencesManager.isDisplayed(usageId))
             return;
@@ -336,14 +340,18 @@ public class SpotlightView extends FrameLayout {
             return;
         }
 
-        preferencesManager.setDisplayed(usageId);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (isRevealAnimationEnabled)
-                exitRevalAnimation();
-            else
+        if (entryAnimationFinished || enableDismissDuringEntryAnimation) {
+            preferencesManager.setDisplayed(usageId);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (isRevealAnimationEnabled) {
+                    exitRevalAnimation();
+                } else {
+                    startFadeout();
+                }
+            } else {
                 startFadeout();
-        } else {
-            startFadeout();
+            }
         }
     }
 
@@ -354,7 +362,6 @@ public class SpotlightView extends FrameLayout {
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startRevealAnimation(final Activity activity) {
-
         float finalRadius = (float) Math.hypot(getWidth(), getHeight());
         Animator anim = ViewAnimationUtils.createCircularReveal(this, targetView.getPoint().x, targetView.getPoint().y, 0, finalRadius);
         anim.setInterpolator(AnimationUtils.loadInterpolator(activity,
@@ -408,7 +415,6 @@ public class SpotlightView extends FrameLayout {
             public void onAnimationEnd(Animator animator) {
                 setVisibility(GONE);
                 removeSpotlightView();
-
             }
 
             @Override
@@ -540,8 +546,6 @@ public class SpotlightView extends FrameLayout {
     }
 
     private void addPathAnimation(Activity activity) {
-
-
         View mView = new View(activity);
         LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT);
@@ -605,7 +609,7 @@ public class SpotlightView extends FrameLayout {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-
+                        entryAnimationFinished = true;
                     }
 
                     @Override
@@ -815,6 +819,16 @@ public class SpotlightView extends FrameLayout {
         this.dismissOnBackPress = dismissOnBackPress;
     }
 
+    /**
+     * Whether dismiss on touch or back press is allowed before the entry animation has completed.
+     *
+     * @param enableDismissDuringEntryAnimation Set to true to allow this view to be dismissed
+     * before the entry animation is done.
+     */
+    public void setEnableDismissDuringEntryAnimation(boolean enableDismissDuringEntryAnimation) {
+        this.enableDismissDuringEntryAnimation = enableDismissDuringEntryAnimation;
+    }
+
     public void setPerformClick(boolean performClick) {
         this.performClick = performClick;
     }
@@ -822,11 +836,11 @@ public class SpotlightView extends FrameLayout {
     /**
      * Whether the target view is allowed to receive touch events.
      *
-     * @param allowTargetViewTouch Set to true to allow the target view to receive touch events, or
+     * @param enableTargetViewTouch Set to true to allow the target view to receive touch events, or
      * false to block all touch events from the target view.
      */
-    public void setAllowTargetViewTouch(boolean allowTargetViewTouch) {
-        this.allowTargetViewTouch = allowTargetViewTouch;
+    public void setEnableTargetViewTouch(boolean enableTargetViewTouch) {
+        this.enableTargetViewTouch = enableTargetViewTouch;
     }
 
     public void setExtraPaddingForArc(int extraPaddingForArc) {
@@ -908,8 +922,9 @@ public class SpotlightView extends FrameLayout {
             this.padding = configuration.getPadding();
             this.dismissOnTouch = configuration.isDismissOnTouch();
             this.dismissOnBackPress = configuration.isDismissOnBackpress();
+            this.enableDismissDuringEntryAnimation = configuration.enableDismissDuringEntryAnimation();
             this.performClick = configuration.performClick();
-            this.allowTargetViewTouch = configuration.allowTargetViewTouch();
+            this.enableTargetViewTouch = configuration.enableTargetViewTouch();
             this.headingTvSize = configuration.getHeadingTvSize();
             this.headingTvColor = configuration.getHeadingTvColor();
             this.headingTvText = configuration.getHeadingTvText();
@@ -992,8 +1007,8 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
-        public Builder allowTargetViewTouch(boolean allowTargetViewTouch) {
-            spotlightView.setAllowTargetViewTouch(allowTargetViewTouch);
+        public Builder enableTargetViewTouch(boolean enableTargetViewTouch) {
+            spotlightView.setEnableTargetViewTouch(enableTargetViewTouch);
             return this;
         }
 
@@ -1042,10 +1057,8 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
-        public Builder enableDismissAfterShown(boolean enable) {
-//            if (enable) {
-//                spotlightView.setDismissOnTouch(false);
-//            }
+        public Builder enableDismissDuringEntryAnimation(boolean enableDismissDuringEntryAnimation) {
+            spotlightView.enableDismissDuringEntryAnimation = enableDismissDuringEntryAnimation;
             return this;
         }
 

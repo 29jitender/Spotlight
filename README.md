@@ -125,7 +125,7 @@ Line animation duration
 ### performClick(boolean)
 Perform a click on target view
 
-### allowTargetViewTouch(boolean)
+### enableTargetViewTouch(boolean)
 Whether the target view is allowed to receive touch events.
 
 ### usageId(String)
@@ -134,8 +134,8 @@ Unique id for each spotlight
 ### dismissOnTouch(boolean)
 Dismiss spotlight on touch outside
 
-### enableDismissAfterShown(boolean)
-Dismiss spotlight on touch outside after spotlight is completely visible
+### enableDismissDuringEntryAnimation(boolean)
+Whether dismiss on touch or back press is allowed before the entry animation has completed.
 
 # Configuration Method
 ```java
