@@ -27,7 +27,8 @@ public class SpotlightConfig {
     private long lineAnimationDuration;
     private int lineStroke;
     private int lineAndArcColor;
-    private Typeface mTypeface;
+    private boolean showTargetArc;
+    private Typeface typeface;
 
     public SpotlightConfig() {
         this.maskColor = 0x70000000;
@@ -47,6 +48,7 @@ public class SpotlightConfig {
         this.lineAnimationDuration = 300;
         this.lineStroke = Utils.dpToPx(4);
         this.lineAndArcColor = Color.parseColor("#eb273f");
+        this.showTargetArc = true;
     }
 
     public int getMaskColor() {
@@ -177,12 +179,20 @@ public class SpotlightConfig {
         this.lineAndArcColor = lineAndArcColor;
     }
 
-    public Typeface getmTypeface() {
-        return mTypeface;
+    public boolean showTargetArc() {
+        return showTargetArc;
     }
 
-    public void setmTypeface(Typeface mTypeface) {
-        this.mTypeface = mTypeface;
+    public void setShowTargetArc(boolean showTargetArc) {
+        this.showTargetArc = showTargetArc;
+    }
+
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
+    public void setTypeface(Typeface mTypeface) {
+        this.typeface = mTypeface;
     }
 
     public boolean isDismissOnBackpress() {

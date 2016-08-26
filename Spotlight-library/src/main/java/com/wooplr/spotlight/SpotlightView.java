@@ -144,6 +144,11 @@ public class SpotlightView extends FrameLayout {
     private TextView subHeadingTv, headingTv;
 
     /**
+     * Whether to show the arc at the end of the line that points to the target.
+     */
+    private boolean showTargetArc = true;
+
+    /**
      * Extra padding around the arc
      */
     private int extraPaddingForArc = 24;
@@ -361,7 +366,11 @@ public class SpotlightView extends FrameLayout {
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                addArcAnimation(activity);
+                if (showTargetArc) {
+                    addArcAnimation(activity);
+                } else {
+                    addPathAnimation(activity);
+                }
             }
 
             @Override
@@ -429,7 +438,11 @@ public class SpotlightView extends FrameLayout {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                addArcAnimation(activity);
+                if (showTargetArc) {
+                    addArcAnimation(activity);
+                } else {
+                    addPathAnimation(activity);
+                }
             }
 
             @Override
@@ -469,10 +482,7 @@ public class SpotlightView extends FrameLayout {
     }
 
     /**
-     * Add arch above and below the circle overlay
-     * Using AnimatedVectorDrawableCompat for pre-Lollipop device
-     *
-     * @param activity
+     * Add arc above/below the circular target overlay.
      */
     private void addArcAnimation(final Activity activity) {
         AppCompatImageView mImageView = new AppCompatImageView(activity);
@@ -507,6 +517,7 @@ public class SpotlightView extends FrameLayout {
         mImageView.postInvalidate();
         mImageView.setLayoutParams(params);
         addView(mImageView);
+
         PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(lineAndArcColor,
                 PorterDuff.Mode.SRC_ATOP);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -816,6 +827,15 @@ public class SpotlightView extends FrameLayout {
         this.extraPaddingForArc = extraPaddingForArc;
     }
 
+    /**
+     * Whether to show the arc under/above the circular target overlay.
+     *
+     * @param show Set to true to show the arc line, false otherwise.
+     */
+    public void setShowTargetArc(boolean show) {
+        this.showTargetArc = show;
+    }
+
     public void setIntroAnimationDuration(long introAnimationDuration) {
         this.introAnimationDuration = introAnimationDuration;
     }
@@ -1019,6 +1039,11 @@ public class SpotlightView extends FrameLayout {
 
         public Builder lineAnimDuration(long duration) {
             spotlightView.setLineAnimationDuration(duration);
+            return this;
+        }
+
+        public Builder showTargetArc(boolean show) {
+            spotlightView.setShowTargetArc(show);
             return this;
         }
 
