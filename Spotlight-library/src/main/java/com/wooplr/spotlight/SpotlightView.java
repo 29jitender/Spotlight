@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PathEffect;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
@@ -16,6 +17,7 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
@@ -172,7 +174,7 @@ public class SpotlightView extends FrameLayout {
      */
     private long lineAnimationDuration = 300;
     private int lineStroke;
-
+    private PathEffect lineEffect;
     private int lineAndArcColor = Color.parseColor("#eb273f");
 
 
@@ -578,6 +580,7 @@ public class SpotlightView extends FrameLayout {
         p.setStrokeCap(Paint.Cap.ROUND);
         p.setStrokeWidth(lineStroke);
         p.setColor(lineAndArcColor);
+        p.setPathEffect(lineEffect);
 
         NormalLineAnimDrawable animDrawable1 = new NormalLineAnimDrawable(p);
         if (lineAnimationDuration > 0)
@@ -893,9 +896,13 @@ public class SpotlightView extends FrameLayout {
         this.lineAndArcColor = lineAndArcColor;
     }
 
-//    public void setLineStroke(int lineStroke) {
-//        this.lineStroke = lineStroke;
-//    }
+    public void setLineStroke(int lineStroke) {
+        this.lineStroke = lineStroke;
+    }
+
+    public void setLineEffect(PathEffect pathEffect) {
+        this.lineEffect = pathEffect;
+    }
 
     public void setTypeface(Typeface typeface) {
         this.mTypeface = typeface;
@@ -1054,10 +1061,15 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
-//        public Builder lineStroke(int stoke) {
-//            spotlightView.setLineStroke(Utils.dpToPx(stoke));
-//            return this;
-//        }
+        public Builder lineStroke(int stroke) {
+            spotlightView.setLineStroke(Utils.dpToPx(stroke));
+            return this;
+        }
+
+        public Builder lineEffect(@Nullable PathEffect pathEffect) {
+            spotlightView.setLineEffect(pathEffect);
+            return this;
+        }
 
         public Builder setConfiguration(SpotlightConfig configuration) {
             spotlightView.setConfiguration(configuration);
