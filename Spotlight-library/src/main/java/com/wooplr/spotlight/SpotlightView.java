@@ -180,6 +180,12 @@ public class SpotlightView extends FrameLayout {
 
     private Typeface mTypeface = null;
 
+    /**
+     * The amount how often the view should be displayed,
+     * increases every time the view has been dismissed
+     */
+    private int timesToDisplay = 1;
+
 
     public SpotlightView(Context context) {
         super(context);
@@ -303,7 +309,7 @@ public class SpotlightView extends FrameLayout {
      */
     private void show(final Activity activity) {
 
-        if (preferencesManager.isDisplayed(usageId))
+        if (preferencesManager.isDisplayed(usageId) && !(preferencesManager.getTimesDisplayed(usageId) < timesToDisplay))
             return;
 
         ((ViewGroup) activity.getWindow().getDecorView()).addView(this);
@@ -334,6 +340,8 @@ public class SpotlightView extends FrameLayout {
      */
     private void dismiss() {
         preferencesManager.setDisplayed(usageId);
+        int timesDisplayed = preferencesManager.getTimesDisplayed(usageId) + 1;
+        preferencesManager.setTimesDisplayed(usageId, timesDisplayed);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (isRevealAnimationEnabled)
                 exitRevealAnimation();
@@ -928,7 +936,12 @@ public class SpotlightView extends FrameLayout {
             this.lineAnimationDuration = configuration.getLineAnimationDuration();
             this.lineStroke = configuration.getLineStroke();
             this.lineAndArcColor = configuration.getLineAndArcColor();
+            this.timesToDisplay = configuration.getTimesToDisplay();
         }
+    }
+
+    public void setTimesToDisplay(int timesToDisplay) {
+        this.timesToDisplay = timesToDisplay;
     }
 
     /**
@@ -1073,6 +1086,11 @@ public class SpotlightView extends FrameLayout {
 
         public Builder setConfiguration(SpotlightConfig configuration) {
             spotlightView.setConfiguration(configuration);
+            return this;
+        }
+
+        public Builder setTimesToDisplay(int timesToDisplay) {
+            spotlightView.setTimesToDisplay(timesToDisplay);
             return this;
         }
 

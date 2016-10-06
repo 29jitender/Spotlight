@@ -29,6 +29,7 @@ public class SpotlightConfig {
     private int lineAndArcColor;
     private boolean showTargetArc;
     private Typeface typeface;
+    private int timesToDisplay;
 
     public SpotlightConfig() {
         this.maskColor = 0x70000000;
@@ -49,6 +50,7 @@ public class SpotlightConfig {
         this.lineStroke = Utils.dpToPx(4);
         this.lineAndArcColor = Color.parseColor("#eb273f");
         this.showTargetArc = true;
+        this.timesToDisplay = 1;
     }
 
     public int getMaskColor() {
@@ -201,5 +203,13 @@ public class SpotlightConfig {
 
     public void setDismissOnBackpress(boolean dismissOnBackpress) {
         this.dismissOnBackpress = dismissOnBackpress;
+    }
+
+    public void setTimesToDisplay(int timesToDisplay) {
+        this.timesToDisplay = timesToDisplay;
+    }
+
+    public int getTimesToDisplay() {
+        return timesToDisplay;
     }
 }
