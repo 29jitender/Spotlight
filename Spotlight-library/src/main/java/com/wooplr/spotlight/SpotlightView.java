@@ -234,22 +234,25 @@ public class SpotlightView extends FrameLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        try{
+            if (!isReady) return;
 
-        if (!isReady) return;
+            if (bitmap == null || canvas == null) {
+                if (bitmap != null) bitmap.recycle();
 
-        if (bitmap == null || canvas == null) {
-            if (bitmap != null) bitmap.recycle();
+                bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                this.canvas = new Canvas(bitmap);
+            }
 
-            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            this.canvas = new Canvas(bitmap);
+            this.canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            this.canvas.drawColor(maskColor);
+
+            circleShape.draw(this.canvas, eraser, padding);
+
+            canvas.drawBitmap(bitmap, 0, 0, null);
+        }catch(Exception e){
+            e.printStackTrace();
         }
-
-        this.canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-        this.canvas.drawColor(maskColor);
-
-        circleShape.draw(this.canvas, eraser, padding);
-
-        canvas.drawBitmap(bitmap, 0, 0, null);
     }
 
 
