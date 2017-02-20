@@ -19,9 +19,11 @@ public class SpotlightConfig {
     private boolean dismissOnBackpress;
     private boolean isPerformClick;
     private int headingTvSize;
+    private int headingTvSizeDimenUnit;
     private int headingTvColor;
     private CharSequence headingTvText;
     private int subHeadingTvSize;
+    private int subHeadingTvSizeDimenUnit;
     private int subHeadingTvColor;
     private CharSequence subHeadingTvText;
     private long lineAnimationDuration;
@@ -40,9 +42,11 @@ public class SpotlightConfig {
         this.dismissOnBackpress=true;
         this.isPerformClick = true;
         this.headingTvSize = 24;
+        this.headingTvSizeDimenUnit = -1;
         this.headingTvColor = Color.parseColor("#eb273f");
         this.headingTvText = "Hello";
         this.subHeadingTvSize = 24;
+        this.subHeadingTvSizeDimenUnit = -1;
         this.subHeadingTvColor = Color.parseColor("#ffffff");
         this.subHeadingTvText = "Hello";
         this.lineAnimationDuration = 300;
@@ -115,6 +119,11 @@ public class SpotlightConfig {
         this.headingTvSize = headingTvSize;
     }
 
+    public void setHeadingTvSize(int dimenUnit, int size) {
+        this.headingTvSizeDimenUnit = dimenUnit;
+        this.headingTvSize = size;
+    }
+
     public int getHeadingTvColor() {
         return headingTvColor;
     }
@@ -137,6 +146,11 @@ public class SpotlightConfig {
 
     public void setSubHeadingTvSize(int subHeadingTvSize) {
         this.subHeadingTvSize = subHeadingTvSize;
+    }
+
+    public void setSubHeadingTvSize(int dimenUnit, int size) {
+        this.subHeadingTvSizeDimenUnit = dimenUnit;
+        this.subHeadingTvSize = size;
     }
 
     public int getSubHeadingTvColor() {
@@ -201,5 +215,13 @@ public class SpotlightConfig {
 
     public void setDismissOnBackpress(boolean dismissOnBackpress) {
         this.dismissOnBackpress = dismissOnBackpress;
+    }
+
+    public int getHeadingTvSizeDimenUnit() {
+        return headingTvSizeDimenUnit;
+    }
+
+    public int getSubHeadingTvSizeDimenUnit() {
+        return subHeadingTvSizeDimenUnit;
     }
 }

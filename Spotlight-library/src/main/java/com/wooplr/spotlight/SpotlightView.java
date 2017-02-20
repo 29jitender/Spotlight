@@ -160,6 +160,7 @@ public class SpotlightView extends FrameLayout {
      * Defaults for heading TextView
      */
     private int headingTvSize = 24;
+    private int headingTvSizeDimenUnit = -1;
     private int headingTvColor = Color.parseColor("#eb273f");
     private CharSequence headingTvText = "Hello";
 
@@ -167,6 +168,7 @@ public class SpotlightView extends FrameLayout {
      * Defaults for sub-heading TextView
      */
     private int subHeadingTvSize = 24;
+    private int subHeadingTvSizeDimenUnit = -1;
     private int subHeadingTvColor = Color.parseColor("#ffffff");
     private CharSequence subHeadingTvText = "Hello";
 
@@ -564,7 +566,12 @@ public class SpotlightView extends FrameLayout {
         headingTv = new TextView(activity);
         if (mTypeface != null)
             headingTv.setTypeface(mTypeface);
-        headingTv.setTextSize(headingTvSize);
+
+        if(headingTvSizeDimenUnit != -1)
+            headingTv.setTextSize(headingTvSizeDimenUnit,headingTvSize);
+        else
+            headingTv.setTextSize(headingTvSize);
+
         headingTv.setVisibility(View.GONE);
         headingTv.setTextColor(headingTvColor);
         headingTv.setText(headingTvText);
@@ -572,7 +579,12 @@ public class SpotlightView extends FrameLayout {
         subHeadingTv = new TextView(activity);
         if (mTypeface != null)
             subHeadingTv.setTypeface(mTypeface);
-        subHeadingTv.setTextSize(subHeadingTvSize);
+
+        if(subHeadingTvSizeDimenUnit != -1)
+            subHeadingTv.setTextSize(subHeadingTvSizeDimenUnit,subHeadingTvSize);
+        else
+            subHeadingTv.setTextSize(subHeadingTvSize);
+
         subHeadingTv.setTextColor(subHeadingTvColor);
         subHeadingTv.setVisibility(View.GONE);
         subHeadingTv.setText(subHeadingTvText);
@@ -883,6 +895,11 @@ public class SpotlightView extends FrameLayout {
         this.headingTvSize = headingTvSize;
     }
 
+    public void setHeadingTvSize(int dimenUnit,int headingTvSize) {
+        this.headingTvSizeDimenUnit = dimenUnit;
+        this.headingTvSize = headingTvSize;
+    }
+
     public void setHeadingTvColor(int headingTvColor) {
         this.headingTvColor = headingTvColor;
     }
@@ -892,6 +909,11 @@ public class SpotlightView extends FrameLayout {
     }
 
     public void setSubHeadingTvSize(int subHeadingTvSize) {
+        this.subHeadingTvSize = subHeadingTvSize;
+    }
+
+    public void setSubHeadingTvSize(int dimenUnit, int subHeadingTvSize) {
+        this.subHeadingTvSizeDimenUnit = dimenUnit;
         this.subHeadingTvSize = subHeadingTvSize;
     }
 
@@ -935,9 +957,11 @@ public class SpotlightView extends FrameLayout {
             this.dismissOnBackPress = configuration.isDismissOnBackpress();
             this.isPerformClick = configuration.isPerformClick();
             this.headingTvSize = configuration.getHeadingTvSize();
+            this.headingTvSizeDimenUnit = configuration.getHeadingTvSizeDimenUnit();
             this.headingTvColor = configuration.getHeadingTvColor();
             this.headingTvText = configuration.getHeadingTvText();
             this.subHeadingTvSize = configuration.getSubHeadingTvSize();
+            this.subHeadingTvSizeDimenUnit = configuration.getSubHeadingTvSizeDimenUnit();
             this.subHeadingTvColor = configuration.getSubHeadingTvColor();
             this.subHeadingTvText = configuration.getSubHeadingTvText();
             this.lineAnimationDuration = configuration.getLineAnimationDuration();
@@ -1029,6 +1053,11 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
+        public Builder headingTvSize(int dimenUnit, int headingTvSize) {
+            spotlightView.setHeadingTvSize(dimenUnit,headingTvSize);
+            return this;
+        }
+
         public Builder headingTvColor(int color) {
             spotlightView.setHeadingTvColor(color);
             return this;
@@ -1041,6 +1070,11 @@ public class SpotlightView extends FrameLayout {
 
         public Builder subHeadingTvSize(int headingTvSize) {
             spotlightView.setSubHeadingTvSize(headingTvSize);
+            return this;
+        }
+
+        public Builder subHeadingTvSize(int dimenUnit, int headingTvSize) {
+            spotlightView.setSubHeadingTvSize(dimenUnit,headingTvSize);
             return this;
         }
 
