@@ -52,7 +52,7 @@ new SpotlightView.Builder(this)
     ```javascript
     dependencies {
         ...
-        compile 'com.github.wooplr:Spotlight:1.2.2'
+        compile 'com.github.wooplr:Spotlight:1.2.3'
     }
     ```
 
@@ -76,7 +76,7 @@ new SpotlightView.Builder(this)
     <dependency>
         <groupId>com.github.wooplr</groupId>
         <artifactId>Spotlight</artifactId>
-        <version>1.2.2</version>
+        <version>1.2.3</version>
     </dependency>
     ```
 
