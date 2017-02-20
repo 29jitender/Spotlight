@@ -315,15 +315,19 @@ public class SpotlightView extends FrameLayout {
         handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    try{
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                                        if (isRevealAnimationEnabled)
-                                            startRevealAnimation(activity);
-                                        else {
+                                            if (isRevealAnimationEnabled)
+                                                startRevealAnimation(activity);
+                                            else {
+                                                startFadinAnimation(activity);
+                                            }
+                                        } else {
                                             startFadinAnimation(activity);
                                         }
-                                    } else {
-                                        startFadinAnimation(activity);
+                                    }catch(Exception e){
+                                        e.printStackTrace();
                                     }
                                 }
                             }
