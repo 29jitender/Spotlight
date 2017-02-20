@@ -121,6 +121,7 @@ public class SpotlightView extends FrameLayout {
      */
     private boolean dismissOnTouch;
     private boolean dismissOnBackPress;
+    private boolean enableDismissAfterShown;
 
     private PreferencesManager preferencesManager;
     private String usageId;
@@ -211,6 +212,7 @@ public class SpotlightView extends FrameLayout {
         isRevealAnimationEnabled = true;
         dismissOnTouch = false;
         isPerformClick = false;
+        enableDismissAfterShown = false;
         dismissOnBackPress = false;
         handler = new Handler();
         preferencesManager = new PreferencesManager(context);
@@ -611,7 +613,8 @@ public class SpotlightView extends FrameLayout {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        dismissOnTouch = true;
+                        if(enableDismissAfterShown)
+                            dismissOnTouch = true;
                     }
 
                     @Override
@@ -820,6 +823,14 @@ public class SpotlightView extends FrameLayout {
 
     public void setDismissOnBackPress(boolean dismissOnBackPress) {
         this.dismissOnBackPress = dismissOnBackPress;
+    }
+
+    public boolean isEnableDismissAfterShown() {
+        return enableDismissAfterShown;
+    }
+
+    public void setEnableDismissAfterShown(boolean enableDismissAfterShown) {
+        this.enableDismissAfterShown = enableDismissAfterShown;
     }
 
     public void setPerformClick(boolean performClick) {
@@ -1056,6 +1067,7 @@ public class SpotlightView extends FrameLayout {
 
         public Builder enableDismissAfterShown(boolean enable) {
             if (enable) {
+                spotlightView.setEnableDismissAfterShown(enable);
                 spotlightView.setDismissOnTouch(false);
             }
             return this;
