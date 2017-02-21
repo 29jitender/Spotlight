@@ -1,5 +1,6 @@
 package com.example.spotlight;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String INTRO_CHANGE_POSITION = "change_position_intro";
     private static final String INTRO_SEQUENCE = "sequence_intro";
     private boolean isRevealEnabled = true;
+    private SpotlightView spotLight;
 
     @BindView(R.id.switchAnimation)
     TextView switchAnimation;
@@ -140,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showIntro(View view, String usageId) {
-        new SpotlightView.Builder(this)
+        spotLight = new SpotlightView.Builder(this)
                 .introAnimationDuration(400)
                 .enableRevealAnimation(isRevealEnabled)
                 .performClick(true)
@@ -161,6 +164,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .enableDismissAfterShown(true)
                 .usageId(usageId) //UNIQUE ID
                 .show();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if(spotLight.isShown()){
+            spotLight.removeSpotlightView(false);//Remove current spotlight view from parent
+            resetAndPlay.performClick();//Show it again in new orientation if required.
+        }
     }
 }
 

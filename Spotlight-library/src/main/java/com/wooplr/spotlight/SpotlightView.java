@@ -22,6 +22,7 @@ import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -182,6 +183,8 @@ public class SpotlightView extends FrameLayout {
 
 
     private Typeface mTypeface = null;
+
+    private int softwareBtnHeight;
 
 
     public SpotlightView(Context context) {
@@ -365,7 +368,7 @@ public class SpotlightView extends FrameLayout {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startRevealAnimation(final Activity activity) {
 
-        float finalRadius = (float) Math.hypot(getWidth(), getHeight());
+        float finalRadius = (float) Math.hypot(getViewWidth(), getHeight());
         Animator anim = ViewAnimationUtils.createCircularReveal(this, targetView.getPoint().x, targetView.getPoint().y, 0, finalRadius);
         anim.setInterpolator(AnimationUtils.loadInterpolator(activity,
                 android.R.interpolator.fast_out_linear_in));
@@ -406,7 +409,7 @@ public class SpotlightView extends FrameLayout {
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void exitRevealAnimation() {
-        float finalRadius = (float) Math.hypot(getWidth(), getHeight());
+        float finalRadius = (float) Math.hypot(getViewWidth(), getHeight());
         Animator anim = ViewAnimationUtils.createCircularReveal(this, targetView.getPoint().x, targetView.getPoint().y, finalRadius, 0);
         anim.setInterpolator(AnimationUtils.loadInterpolator(getContext(),
                 android.R.interpolator.accelerate_decelerate));
@@ -561,8 +564,10 @@ public class SpotlightView extends FrameLayout {
         View mView = new View(activity);
         LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT);
-        params.width = getWidth();
-        params.height = getHeight();
+        params.width = getViewWidth();
+        params.height = getViewHeight();
+//        params.width = getMeasuredWidth();
+//        params.height = getMeasuredHeight();
         addView(mView, params);
 
         //Textviews
@@ -722,12 +727,18 @@ public class SpotlightView extends FrameLayout {
                         (targetView.getViewRight() - targetView.getViewWidth() / 2),
                         targetView.getViewTop() / 2
                 ));
+
                 animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2),
                         targetView.getViewTop() / 2,
-                        screenWidth - gutter,
+                        screenWidth - ((screenHeight > screenWidth) ? gutter : (gutter + softwareBtnHeight)),
                         targetView.getViewTop() / 2));
+
+
                 //TextViews
-                headingParams.rightMargin = gutter;
+                if(screenHeight > screenWidth)
+                    headingParams.rightMargin = gutter;//portrait
+                else
+                    headingParams.rightMargin = gutter + softwareBtnHeight;//landscape
                 headingParams.leftMargin = (targetView.getViewRight() - targetView.getViewWidth() / 2) + extramargin;
                 headingParams.bottomMargin = screenHeight - targetView.getViewTop() / 2 + spaceAboveLine;
                 headingParams.topMargin = extramargin;
@@ -735,7 +746,10 @@ public class SpotlightView extends FrameLayout {
                 headingTv.setGravity(Gravity.LEFT);
 
 
-                subHeadingParams.rightMargin = gutter;
+                if(screenHeight > screenWidth)
+                    subHeadingParams.rightMargin = gutter;//portrait
+                else
+                    subHeadingParams.rightMargin = gutter + softwareBtnHeight;//landscape
                 subHeadingParams.leftMargin = (targetView.getViewRight() - targetView.getViewWidth() / 2) + extramargin;
                 subHeadingParams.topMargin = targetView.getViewTop() / 2 + spaceBelowLine;
                 subHeadingParams.bottomMargin = extramargin;
@@ -778,19 +792,25 @@ public class SpotlightView extends FrameLayout {
 
                 animPoints.add(new AnimPoint(targetView.getViewRight() - targetView.getViewWidth() / 2,
                         (screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom(),
-                        screenWidth - gutter,
+                        screenWidth - ((screenHeight > screenWidth) ? gutter : (gutter + softwareBtnHeight)),
                         (screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom()));
 
 //                //TextViews
+                if(screenHeight > screenWidth)
+                    headingParams.rightMargin = gutter;//portrait
+                else
+                    headingParams.rightMargin = gutter + softwareBtnHeight;//landscape
                 headingParams.leftMargin = targetView.getViewRight() - targetView.getViewWidth() / 2 + extramargin;
-                headingParams.rightMargin = gutter;
                 headingParams.bottomMargin = screenHeight - ((screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom()) + spaceAboveLine;
                 headingParams.topMargin = extramargin;
                 headingParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
                 headingTv.setGravity(Gravity.LEFT);
 
+                if(screenHeight > screenWidth)
+                    subHeadingParams.rightMargin = gutter;//portrait
+                else
+                    subHeadingParams.rightMargin = gutter + softwareBtnHeight;//landscape
                 subHeadingParams.leftMargin = targetView.getViewRight() - targetView.getViewWidth() / 2 + extramargin;
-                subHeadingParams.rightMargin = gutter;
                 subHeadingParams.bottomMargin = extramargin;
                 subHeadingParams.topMargin = ((screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom()) + spaceBelowLine;
                 subHeadingParams.gravity = Gravity.RIGHT;
@@ -808,6 +828,7 @@ public class SpotlightView extends FrameLayout {
      * Remove the spotlight view
      */
     private void removeSpotlightView() {
+
         if (listener != null)
             listener.onUserClicked(usageId);
 
@@ -815,6 +836,21 @@ public class SpotlightView extends FrameLayout {
             ((ViewGroup) getParent()).removeView(this);
     }
 
+    /**
+     * Remove the spotlight view
+     * @param needOnUserClickedCallback true, if user wants a call back when this spotlight view is removed from parent.
+     */
+    public void removeSpotlightView(boolean needOnUserClickedCallback) {
+        try{
+            if(needOnUserClickedCallback && listener != null)
+                listener.onUserClicked(usageId);
+
+            if (getParent() != null)
+                ((ViewGroup) getParent()).removeView(this);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Setters
@@ -944,6 +980,10 @@ public class SpotlightView extends FrameLayout {
         this.lineEffect = pathEffect;
     }
 
+    private void setSoftwareBtnHeight(int px){
+        this.softwareBtnHeight = px;
+    }
+
     public void setTypeface(Typeface typeface) {
         this.mTypeface = typeface;
     }
@@ -986,6 +1026,7 @@ public class SpotlightView extends FrameLayout {
         public Builder(Activity activity) {
             this.activity = activity;
             spotlightView = new SpotlightView(activity);
+            spotlightView.setSoftwareBtnHeight(getSoftButtonsBarHeight(activity));
         }
 
         public Builder maskColor(int maskColor) {
@@ -1161,5 +1202,59 @@ public class SpotlightView extends FrameLayout {
 
     public void logger(String s) {
         Log.d("Spotlight", s);
+    }
+
+    private int getViewHeight(){
+        if(getWidth() > getHeight()){
+            //Landscape
+            return getHeight();
+        }else{
+            //Portrait
+            return (getHeight() - softwareBtnHeight);
+        }
+    }
+
+    private int getViewWidth(){
+        if(getWidth() > getHeight()){
+            //Landscape
+            return (getWidth() - softwareBtnHeight);
+        }else{
+            //Portrait
+            return getWidth();
+        }
+    }
+
+    private static int getSoftButtonsBarHeight(Activity activity) {
+        try{
+            // getRealMetrics is only available with API 17 and +
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                DisplayMetrics metrics = new DisplayMetrics();
+                activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+                if(metrics.heightPixels > metrics.widthPixels)
+                {
+                    //Portrait
+                    int usableHeight = metrics.heightPixels;
+                    activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+                    int realHeight = metrics.heightPixels;
+                    if (realHeight > usableHeight)
+                        return realHeight - usableHeight;
+                    else
+                        return 0;
+                }else{
+                    //Landscape
+                    int usableHeight = metrics.widthPixels;
+                    activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+                    int realHeight = metrics.widthPixels;
+                    if (realHeight > usableHeight)
+                        return realHeight - usableHeight;
+                    else
+                        return 0;
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
