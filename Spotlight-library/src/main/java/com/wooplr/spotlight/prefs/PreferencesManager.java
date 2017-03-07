@@ -22,7 +22,7 @@ public class PreferencesManager {
     }
 
     public void reset(String id) {
-        sharedPreferences.edit().putBoolean(id, false).apply();
+        sharedPreferences.edit().remove(id).apply();
     }
 
     public void resetAll() {

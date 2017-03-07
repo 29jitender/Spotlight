@@ -1257,4 +1257,27 @@ public class SpotlightView extends FrameLayout {
         }
         return 0;
     }
+
+    /**
+     * This will remove all usage ids from preferences.
+     */
+    public void resetAllUsageIds(){
+        try{
+            preferencesManager.resetAll();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This will remove given usage id from preferences.
+     * @param id Spotlight usage id to be removed
+     */
+    public void resetUsageId(String id){
+        try{
+            preferencesManager.reset(id);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }
