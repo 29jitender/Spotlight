@@ -185,6 +185,8 @@ public class SpotlightView extends FrameLayout {
     private Typeface mTypeface = null;
 
     private int softwareBtnHeight;
+    
+    private boolean dismissCalled = false;
 
 
     public SpotlightView(Context context) {
@@ -347,6 +349,11 @@ public class SpotlightView extends FrameLayout {
      * Dissmiss view with reverse animation
      */
     private void dismiss() {
+        if (dismissCalled) {
+            return;
+        }
+        dismissCalled = true;
+        
         preferencesManager.setDisplayed(usageId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (isRevealAnimationEnabled)
