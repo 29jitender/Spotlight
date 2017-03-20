@@ -1191,11 +1191,11 @@ public class SpotlightView extends FrameLayout {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        if (dismissOnBackPress) {
-            if (event.getAction() == KeyEvent.ACTION_UP && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+        if (dismissOnBackPress && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if (event.getAction() == KeyEvent.ACTION_UP) {
                 dismiss();
-                return true;
             }
+            return true;
         }
         return super.dispatchKeyEvent(event);
     }
