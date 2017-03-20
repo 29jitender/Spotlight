@@ -408,6 +408,9 @@ public class SpotlightView extends FrameLayout {
         });
 
         setVisibility(View.VISIBLE);
+        if (dismissOnBackPress) {
+            requestFocus();
+        }
         anim.start();
     }
 
@@ -475,6 +478,9 @@ public class SpotlightView extends FrameLayout {
         });
 
         setVisibility(VISIBLE);
+        if (dismissOnBackPress) {
+            requestFocus();
+        }
         startAnimation(fadeIn);
     }
 
