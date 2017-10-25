@@ -31,6 +31,7 @@ public class SpotlightSequence {
 
     private static SpotlightSequence instance;
     private final String TAG = "Tour Sequence";
+    private SpotlightSequenceListener spotlightSequenceListener;
 
     /**
      * Creates an instance of SpotlightSequence
@@ -147,7 +148,18 @@ public class SpotlightSequence {
         }else {
             Log.d(TAG, "END OF QUEUE");
             resetTour();
+
+            if (spotlightSequenceListener != null)
+                spotlightSequenceListener.onSequenceEnd();
         }
+    }
+
+    /**
+     * Set Spotlight sequence listener. (For now it is only for sequence end event.)
+     */
+    public SpotlightSequence setListener(SpotlightSequenceListener listener){
+        this.spotlightSequenceListener = listener;
+        return instance;
     }
 
     /**

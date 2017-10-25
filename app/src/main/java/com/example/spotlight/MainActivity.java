@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.wooplr.spotlight.SpotlightView;
 import com.wooplr.spotlight.prefs.PreferencesManager;
 import com.wooplr.spotlight.utils.SpotlightSequence;
+import com.wooplr.spotlight.utils.SpotlightSequenceListener;
 import com.wooplr.spotlight.utils.Utils;
 
 import java.util.Random;
@@ -135,6 +136,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 .addSpotlight(changePosAndPlay, "Change Position", "Click here to change position and replay", INTRO_CHANGE_POSITION)
                                 .addSpotlight(startSequence, "Start sequence", "Well.. you just clicked here", INTRO_SEQUENCE)
                                 .addSpotlight(fab,"Love", "Like the picture?\n" + "Let others know.", INTRO_CARD)
+                                .setListener(new SpotlightSequenceListener() {
+                                    @Override
+                                    public void onSequenceEnd() {
+                                        Toast.makeText(MainActivity.this, "Spotlight sequence ended", Toast.LENGTH_SHORT).show();
+                                        Log.d("MainActivity", "Spotlight sequence ended");
+                                    }
+                                })
                                 .startSequence();
                     }
                 },400);
