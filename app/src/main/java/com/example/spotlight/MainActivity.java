@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .dismissOnBackPress(true)
                 .enableDismissAfterShown(true)
                 .usageId(usageId) //UNIQUE ID
+//                .showAlways(true)
                 .show();
     }
 

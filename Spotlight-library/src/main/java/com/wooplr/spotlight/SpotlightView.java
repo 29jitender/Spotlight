@@ -186,6 +186,11 @@ public class SpotlightView extends FrameLayout {
 
     private int softwareBtnHeight;
 
+    /**
+     * If true -> Do not store spotlight id into preferences so that it can show every time when a particular screen is opened.
+     */
+    private boolean isShowAlways = false;
+
 
     public SpotlightView(Context context) {
         super(context);
@@ -217,6 +222,7 @@ public class SpotlightView extends FrameLayout {
         isRevealAnimationEnabled = true;
         dismissOnTouch = false;
         isPerformClick = false;
+        isShowAlways = false;
         enableDismissAfterShown = false;
         dismissOnBackPress = false;
         handler = new Handler();
@@ -347,7 +353,9 @@ public class SpotlightView extends FrameLayout {
      * Dissmiss view with reverse animation
      */
     private void dismiss() {
-        preferencesManager.setDisplayed(usageId);
+        if(!isShowAlways)
+            preferencesManager.setDisplayed(usageId);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (isRevealAnimationEnabled)
                 exitRevealAnimation();
@@ -892,6 +900,10 @@ public class SpotlightView extends FrameLayout {
         isPerformClick = performClick;
     }
 
+    public void setShowAlways(boolean showAlways){
+        isShowAlways = showAlways;
+    }
+
     public void setExtraPaddingForArc(int extraPaddingForArc) {
         this.extraPaddingForArc = extraPaddingForArc;
     }
@@ -1086,6 +1098,13 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
+        /**
+         * If true -> Do not store spotlight id into preferences so that it can show every time when a particular screen is opened.
+         */
+        public Builder showAlways(boolean isShowAlways) {
+            spotlightView.setShowAlways(isShowAlways);
+            return this;
+        }
 
         public Builder fadeinTextDuration(long fadinTextDuration) {
             spotlightView.setFadingTextDuration(fadinTextDuration);
