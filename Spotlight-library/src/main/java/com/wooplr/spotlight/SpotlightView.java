@@ -326,27 +326,32 @@ public class SpotlightView extends FrameLayout {
 
         setReady(true);
 
-        handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try{
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        SpotlightView.this.post(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    boolean isAttachedToWindow = true;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        isAttachedToWindow = SpotlightView.this.isAttachedToWindow();
+                    }
 
-                                            if (isRevealAnimationEnabled)
-                                                startRevealAnimation(activity);
-                                            else {
-                                                startFadinAnimation(activity);
-                                            }
-                                        } else {
-                                            startFadinAnimation(activity);
-                                        }
-                                    }catch(Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
+                    if(isAttachedToWindow) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                            if (isRevealAnimationEnabled)
+                                startRevealAnimation(activity);
+                            else {
+                                startFadinAnimation(activity);
                             }
-                , 100);
-
+                        } else {
+                            startFadinAnimation(activity);
+                        }
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**
