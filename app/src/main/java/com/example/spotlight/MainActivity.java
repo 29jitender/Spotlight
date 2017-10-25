@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (view.getId()) {
 
-            case R.id.switchAnimation:
+            /*case R.id.switchAnimation:
                 if (isRevealEnabled) {
                     switchAnimation.setText("Switch to Reveal");
                     isRevealEnabled = false;
@@ -101,12 +101,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     isRevealEnabled = true;
                 }
                 mPreferencesManager.resetAll();
-                break;
+                break;*/
 
             case R.id.reset:
                 mPreferencesManager.resetAll();
                 break;
-            case R.id.resetAndPlay:
+            /*case R.id.resetAndPlay:
                 mPreferencesManager.resetAll();
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
@@ -123,14 +123,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
                 params.setMargins(Utils.dpToPx(16), Utils.dpToPx(16), right, bottom);
                 fab.setLayoutParams(params);
-                break;
+                break;*/
             case R.id.startSequence:
                 mPreferencesManager.resetAll();
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         SpotlightSequence.getInstance(MainActivity.this,null)
-                                .addSpotlight(switchAnimation, "Switch Animation", "Click to swtich the animation", INTRO_SWITCH)
+                                .addSpotlight(switchAnimation, "Switch Animation", "Click to switch the animation", INTRO_SWITCH)
                                 .addSpotlight(reset, "Reset ", "Click here to reset preferences", INTRO_RESET)
                                 .addSpotlight(resetAndPlay, "Play Again", "Click here to play again", INTRO_REPEAT)
                                 .addSpotlight(changePosAndPlay, "Change Position", "Click here to change position and replay", INTRO_CHANGE_POSITION)
