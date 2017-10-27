@@ -136,6 +136,9 @@ Dismiss spotlight on touch outside
 ### enableDismissAfterShown(boolean)
 Dismiss spotlight on touch outside after spotlight is completely visible
 
+### showAlways(boolean)
+To show spotlight everytime when user opens the same screen.
+
 # Configuration Method
 ```java
 //Create global config instance to reuse it
