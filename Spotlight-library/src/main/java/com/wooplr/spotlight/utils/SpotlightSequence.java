@@ -31,6 +31,8 @@ public class SpotlightSequence {
 
     private static SpotlightSequence instance;
     private final String TAG = "Tour Sequence";
+    private SpotlightSequenceListener spotlightSequenceListener;
+    private long lastClickTime = 0;
 
     /**
      * Creates an instance of SpotlightSequence
@@ -77,7 +79,8 @@ public class SpotlightSequence {
                 .setListener(new SpotlightListener() {
                     @Override
                     public void onUserClicked(String s) {
-                        playNext();
+                        if(!isFastDoubleClick())
+                            playNext();
                     }
                 })
                 .enableDismissAfterShown(true);
@@ -105,7 +108,8 @@ public class SpotlightSequence {
                 .setListener(new SpotlightListener() {
                     @Override
                     public void onUserClicked(String s) {
-                        playNext();
+                        if(!isFastDoubleClick())
+                            playNext();
                     }
                 })
                 .enableDismissAfterShown(true);
@@ -147,7 +151,18 @@ public class SpotlightSequence {
         }else {
             Log.d(TAG, "END OF QUEUE");
             resetTour();
+
+            if (spotlightSequenceListener != null)
+                spotlightSequenceListener.onSequenceEnd();
         }
+    }
+
+    /**
+     * Set Spotlight sequence listener. (For now it is only for sequence end event.)
+     */
+    public SpotlightSequence setListener(SpotlightSequenceListener listener){
+        this.spotlightSequenceListener = listener;
+        return instance;
     }
 
     /**
@@ -179,6 +194,21 @@ public class SpotlightSequence {
             config.setLineAnimationDuration(400);
         }
         this.config = config;
+    }
+
+    /**
+     * Method to check if user has clicked withing 1 second or not.
+     * It will prevent showing spotlights overlapped on each other.
+     * @return
+     */
+    private boolean isFastDoubleClick(){
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (timeD > 0 && timeD < 1000) {
+            return true;
+        }
+        lastClickTime = time;
+        return false;
     }
 }
 
