@@ -185,6 +185,8 @@ public class SpotlightView extends FrameLayout {
     private Typeface mTypeface = null;
 
     private int softwareBtnHeight;
+    
+    private boolean dismissCalled = false;
 
 
     public SpotlightView(Context context) {
@@ -347,6 +349,11 @@ public class SpotlightView extends FrameLayout {
      * Dissmiss view with reverse animation
      */
     private void dismiss() {
+        if (dismissCalled) {
+            return;
+        }
+        dismissCalled = true;
+        
         preferencesManager.setDisplayed(usageId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (isRevealAnimationEnabled)
@@ -401,6 +408,9 @@ public class SpotlightView extends FrameLayout {
         });
 
         setVisibility(View.VISIBLE);
+        if (dismissOnBackPress) {
+            requestFocus();
+        }
         anim.start();
     }
 
@@ -468,6 +478,9 @@ public class SpotlightView extends FrameLayout {
         });
 
         setVisibility(VISIBLE);
+        if (dismissOnBackPress) {
+            requestFocus();
+        }
         startAnimation(fadeIn);
     }
 
@@ -1191,11 +1204,11 @@ public class SpotlightView extends FrameLayout {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        if (dismissOnBackPress) {
-            if (event.getAction() == KeyEvent.ACTION_UP && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+        if (dismissOnBackPress && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if (event.getAction() == KeyEvent.ACTION_UP) {
                 dismiss();
-                return true;
             }
+            return true;
         }
         return super.dispatchKeyEvent(event);
     }
