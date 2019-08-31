@@ -1,3 +1,5 @@
+THIS LIBRARY IS NO LONGER MAINTAINED
+
 # Spotlight
 Spotlight is an Android library used to onboard users by showcasing specific features in the app.
 
