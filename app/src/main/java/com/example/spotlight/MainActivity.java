@@ -9,6 +9,7 @@ import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -155,28 +156,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBottomSheetDialog.setContentView(sheetView);
         mBottomSheetDialog.show();
 
-
-        spotLight = new SpotlightView.Builder(this)
-                .introAnimationDuration(400)
-                .enableRevealAnimation(isRevealEnabled)
-                .performClick(true)
-                .fadeinTextDuration(400)
-                //.setTypeface(FontUtil.get(this, "RemachineScript_Personal_Use"))
-                .headingTvColor(Color.parseColor("#eb273f"))
-                .headingTvSize(32)
-                .headingTvText("Love")
-                .subHeadingTvColor(Color.parseColor("#ffffff"))
-                .subHeadingTvSize(16)
-                .subHeadingTvText("Like the picture?\nLet others know.")
-                .maskColor(Color.parseColor("#dc000000"))
-                .target(sheetView.findViewById(R.id.test))
-                .lineAnimDuration(400)
-                .lineAndArcColor(Color.parseColor("#eb273f"))
-                .dismissOnTouch(true)
-                .dismissOnBackPress(true)
-                .enableDismissAfterShown(true)
-                .usageId(usageId.concat(String.valueOf(System.currentTimeMillis()))) //UNIQUE ID
-                .show(mBottomSheetDialog.getWindow());
+        SpotlightSequence.getInstance(this,null)
+                .addSpotlight(sheetView.findViewById(R.id.test), "First", "This is first spotlight", "t")
+                .addSpotlight(sheetView.findViewById(R.id.test2), "Second", "This is second spotlight","t2")
+                .toWindow(mBottomSheetDialog.getWindow())
+                .startSequence();
     }
 
     @Override

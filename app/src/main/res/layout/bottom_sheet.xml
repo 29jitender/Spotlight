@@ -5,6 +5,14 @@
     android:background="@drawable/avd_spotlight_arc"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/test2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/test"
+        android:layout_centerHorizontal="true"
+        android:text="Button" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/test"
         android:layout_width="wrap_content"
