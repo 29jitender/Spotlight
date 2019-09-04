@@ -10,7 +10,9 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
+
+
+import androidx.annotation.NonNull;
 
 import com.wooplr.spotlight.target.AnimPoint;
 
