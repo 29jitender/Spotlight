@@ -1,4 +1,4 @@
-THIS LIBRARY IS NO LONGER MAINTAINED
+# THIS LIBRARY IS NO LONGER MAINTAINED. I suggest you check alternatives.
 
 # Spotlight
 Spotlight is an Android library used to onboard users by showcasing specific features in the app.
