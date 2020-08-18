@@ -1023,6 +1023,8 @@ public class SpotlightView extends FrameLayout {
             this.lineAnimationDuration = configuration.getLineAnimationDuration();
             this.lineStroke = configuration.getLineStroke();
             this.lineAndArcColor = configuration.getLineAndArcColor();
+            this.mTypeface= configuration.getTypeface();
+
         }
     }
 
