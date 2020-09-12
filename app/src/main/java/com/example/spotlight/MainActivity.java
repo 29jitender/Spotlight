@@ -5,15 +5,22 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.wooplr.spotlight.SpotlightConfig;
 import com.wooplr.spotlight.SpotlightView;
 import com.wooplr.spotlight.prefs.PreferencesManager;
 import com.wooplr.spotlight.utils.SpotlightSequence;
@@ -26,7 +33,6 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
 
 
 //    static {
@@ -128,49 +134,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        SpotlightSequence.getInstance(MainActivity.this,null)
+                        SpotlightSequence.getInstance(MainActivity.this, null)
                                 .addSpotlight(switchAnimation, "Switch Animation", "Click to swtich the animation", INTRO_SWITCH)
                                 .addSpotlight(reset, "Reset ", "Click here to reset preferences", INTRO_RESET)
                                 .addSpotlight(resetAndPlay, "Play Again", "Click here to play again", INTRO_REPEAT)
                                 .addSpotlight(changePosAndPlay, "Change Position", "Click here to change position and replay", INTRO_CHANGE_POSITION)
                                 .addSpotlight(startSequence, "Start sequence", "Well.. you just clicked here", INTRO_SEQUENCE)
-                                .addSpotlight(fab,"Love", "Like the picture?\n" + "Let others know.", INTRO_CARD)
+                                .addSpotlight(fab, "Love", "Like the picture?\n" + "Let others know.", INTRO_CARD)
                                 .startSequence();
                     }
-                },400);
+                }, 400);
                 break;
         }
     }
 
     private void showIntro(View view, String usageId) {
-        spotLight = new SpotlightView.Builder(this)
-                .introAnimationDuration(400)
-                .enableRevealAnimation(isRevealEnabled)
-                .performClick(true)
-                .fadeinTextDuration(400)
-                //.setTypeface(FontUtil.get(this, "RemachineScript_Personal_Use"))
-                .headingTvColor(Color.parseColor("#eb273f"))
-                .headingTvSize(32)
-                .headingTvText("Love")
-                .subHeadingTvColor(Color.parseColor("#ffffff"))
-                .subHeadingTvSize(16)
-                .subHeadingTvText("Like the picture?\nLet others know.")
-                .maskColor(Color.parseColor("#dc000000"))
-                .target(view)
-                .lineAnimDuration(400)
-                .lineAndArcColor(Color.parseColor("#eb273f"))
-                .dismissOnTouch(true)
-                .dismissOnBackPress(true)
-                .enableDismissAfterShown(true)
-                .usageId(usageId) //UNIQUE ID
-                .show();
+
+        BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(this);
+        View sheetView = this.getLayoutInflater().inflate(R.layout.bottom_sheet, null);
+
+        mBottomSheetDialog.setContentView(sheetView);
+        mBottomSheetDialog.show();
+
+        SpotlightSequence.getInstance(this,null)
+                .addSpotlight(sheetView.findViewById(R.id.test), "First", "This is first spotlight", "t")
+                .addSpotlight(sheetView.findViewById(R.id.test2), "Second", "This is second spotlight","t2")
+                .toWindow(mBottomSheetDialog.getWindow())
+                .startSequence();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        if(spotLight.isShown()){
+        if (spotLight.isShown()) {
             spotLight.removeSpotlightView(false);//Remove current spotlight view from parent
             resetAndPlay.performClick();//Show it again in new orientation if required.
         }
