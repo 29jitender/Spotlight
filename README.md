@@ -167,5 +167,5 @@ config.setLineAndArcColor(0xFFFFFFFF);
 
 [Suraj Barthy](https://dribbble.com/thesbdesign)
 
-## License
+# License
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
